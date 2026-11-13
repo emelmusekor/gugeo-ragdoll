@@ -12,7 +12,7 @@
   var curDepth = 0;
   var flipping = false;
   var pending = false;
-  var mapBand = '1-2';
+  var mapBand = 'high';
 
   var TONES = ['', 'tone-coral', 'tone-mint', 'tone-amber', 'tone-violet'];
   /* 학년군(고등학교는 과목 묶음)마다 보여 줄 말. 단원 파일이 실려 있으면 문이 열리고, 없으면 ‘준비 중’으로 성취기준만 보여 준다. */
@@ -109,10 +109,14 @@
     return n;
   }
 
+  /* 보여 주는 차례는 고등 공통국어 → 중학교 → 초등 5~6 → 3~4 → 1~2 (학원에서 고등부를 가장 먼저 찾으므로) */
   function bandKeys() {
-    return (ST.bandOrder || Object.keys(ST.bands)).filter(function (k) {
-      return BAND_INFO[k];
-    });
+    return (ST.bandOrder || Object.keys(ST.bands))
+      .filter(function (k) {
+        return BAND_INFO[k];
+      })
+      .slice()
+      .reverse();
   }
 
   function bandOpen(bandKey) {
@@ -185,9 +189,27 @@
         h('div', { class: 'picks' }, pick({ tone: 'tone-coral', no: '↩', title: '이어서 하기', sub: App.semName(last) + ' ' + last.no + '단원 · ' + last.title, href: '#/u/' + last.id }))
       );
     }
-    /* 학년군을 작은 카드로 나란히: 초등 1~2 · 3~4 · 5~6 / 중학교 · 고등학교 · 교육과정 지도 */
+    /* 고등 공통국어는 맨 위에 큰 카드로, 나머지 학년군은 작은 카드로 나란히: 중학교 · 초등 5~6 · 3~4 / 1~2 · 교육과정 지도 */
+    var keys = bandKeys();
+    var top = keys[0];
+    var topUnits = bandUnits(top);
+    rightBody.push(
+      h(
+        'div',
+        { class: 'picks is-feature' },
+        pick({
+          tone: 'tone-violet',
+          no: BAND_INFO[top].no,
+          title: BAND_INFO[top].name,
+          sub: BAND_INFO[top].sub,
+          meta: topUnits.length ? topUnits.length + '단원 · 발도장 ' + doneCount(topUnits) + '/' + topUnits.length : '준비 중',
+          soon: !topUnits.length,
+          href: '#/band/' + top,
+        })
+      )
+    );
     var tiles = h('div', { class: 'picks is-tiles' });
-    bandKeys().forEach(function (key, i) {
+    keys.slice(1).forEach(function (key, i) {
       var info = BAND_INFO[key];
       var units = bandUnits(key);
       tiles.appendChild(
@@ -203,9 +225,9 @@
         })
       );
     });
-    tiles.appendChild(pick({ tile: true, tone: 'tone-violet', no: '지도', title: '교육과정 지도', meta: '성취기준 한눈에', tip: '단원과 성취기준이 어떻게 이어지는지 한눈에 보기', href: '#/map' }));
+    tiles.appendChild(pick({ tile: true, tone: 'tone-mint', no: '지도', title: '교육과정 지도', meta: '성취기준 한눈에', tip: '단원과 성취기준이 어떻게 이어지는지 한눈에 보기', href: '#/map' }));
     rightBody.push(tiles);
-    rightBody.push(h('p', { class: 'note-line' }, '초등학교 1학년부터 고등학교 공통국어까지, 학년을 고르면 학기와 단원이 나와요.'));
+    rightBody.push(h('p', { class: 'note-line' }, '고등 공통국어부터 중학교, 초등학교까지 학년을 고르면 학기와 단원이 나와요.'));
 
     if (marks.length) {
       rightBody.push(h('p', { class: 'note-line' }, '책갈피를 끼운 단원'));
@@ -390,7 +412,7 @@
           tabs,
           h('p', { class: 'note-line' }, '영역별로 단원과 이어진 성취기준 수'),
           legend,
-          h('p', { class: 'note-line' }, '성취기준은 학년군(초등 1~2, 3~4, 5~6학년, 중학교 1~3학년)이나 과목(고등학교 공통국어1·2)마다 정해져 있어요. 그래서 한 성취기준을 여러 학기에 걸쳐 조금씩 깊게 배우기도 해요.'),
+          h('p', { class: 'note-line' }, '성취기준은 과목(고등학교 공통국어1·2)이나 학년군(중학교 1~3학년, 초등 5~6, 3~4, 1~2학년)마다 정해져 있어요. 그래서 한 성취기준을 여러 학기에 걸쳐 조금씩 깊게 배우기도 해요.'),
           h('p', { class: 'note-line' }, '성취기준과 해설 문구 출처: ' + ST.source),
         ],
       }),

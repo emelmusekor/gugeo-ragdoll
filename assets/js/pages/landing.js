@@ -339,10 +339,48 @@
   }
 
   /* ───── 두루마리 미리 보기 ───── */
+  /* 미리 보기로 보여 줄 단원과 그 단원의 몇 번째 움직이는 그림인지 (고등 공통국어1 「음운 변동」의 첫 그림) */
+  var DEMO = { unit: '10-1-03', widget: 0 };
+
   function demo() {
     var el = document.getElementById('demo-widget');
-    if (!el || !App.widgets || !App.widgets.jamoBuilder) return;
-    App.widgets.jamoBuilder(el, { cons: 'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅎ', vowels: 'ㅏㅓㅗㅜㅡㅣ', start: '고' });
+    if (!el || !App.widgets) return;
+    var unit = App.unitById && App.unitById(DEMO.unit);
+    var found = null;
+    if (unit) {
+      var n = 0;
+      unit.sections.forEach(function (s) {
+        (s.blocks || []).forEach(function (b) {
+          if (b.t === 'widget' && n++ === DEMO.widget && App.widgets[b.kind]) found = b;
+        });
+      });
+    }
+    el.innerHTML = '';
+    if (!found) {
+      /* 단원을 못 찾으면 예전처럼 글자 만들기를 보여 준다 */
+      if (App.widgets.jamoBuilder) App.widgets.jamoBuilder(el, { cons: 'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅎ', vowels: 'ㅏㅓㅗㅜㅡㅣ', start: '고' });
+      return;
+    }
+    App.widgets[found.kind](el, found.props || {});
+    var name = App.semName(unit);
+    var crumb = document.getElementById('demo-crumb');
+    if (crumb) crumb.textContent = name + ' · ' + unit.no + '단원 · ' + unit.title;
+    var cap = document.getElementById('demo-caption');
+    if (cap) cap.textContent = '공책 펴기 → ' + name + ' → ' + unit.no + '단원 「' + unit.title + '」 두루마리의 움직이는 그림';
+    var rail = document.getElementById('demo-rail');
+    if (rail) {
+      rail.innerHTML = '';
+      unit.sections.forEach(function (s, i) {
+        rail.appendChild(h('span', { class: i === 0 ? 'is-on' : '' }, s.title));
+      });
+      rail.appendChild(h('span', null, '한 장 요약'));
+    }
+    var link = el.closest('.demo-frame');
+    if (link && !link.dataset.linked) {
+      link.dataset.linked = '1';
+      var go = document.getElementById('demo-caption');
+      if (go) go.appendChild(h('a', { href: 'handbook.html#/u/' + unit.id, style: { marginLeft: '8px' } }, '이 단원 펼치기 →'));
+    }
   }
 
   /* ───── 교육과정 영역 ───── */
@@ -351,8 +389,8 @@
     var switcher = document.getElementById('band-switch');
     if (!grid || !App.standards) return;
     var units = App.units || [];
-    /* 단원이 들어 있는 학년군만 고를 수 있게 한다 */
-    var bandKeys = Object.keys(App.standards.bands).filter(function (key) {
+    /* 단원이 들어 있는 학년군만, 고등 공통국어부터 거꾸로 고를 수 있게 한다 */
+    var bandKeys = (App.standards.bandOrder || Object.keys(App.standards.bands)).slice().reverse().filter(function (key) {
       return units.some(function (u) {
         var s = App.semester(u.semKey);
         return s && s.band === key;
@@ -416,7 +454,25 @@
   function shelf() {
     var filterBox = document.getElementById('shelf-filter');
     var grid = document.getElementById('shelf-grid');
-    var sheets = App.sheets || [];
+    /* 학습지도 고등학교 → 중학교 → 초등 고학년 → 저학년 차례로 */
+    var rank = function (s) {
+      var g = s.grade || '';
+      if (/고등/.test(g)) return 0;
+      if (/중학/.test(g)) return 1;
+      if (/5~6|[56]학년/.test(g)) return 2;
+      if (/3~4|[34]학년/.test(g)) return 3;
+      return 4;
+    };
+    var sheets = (App.sheets || [])
+      .map(function (s, i) {
+        return { s: s, i: i };
+      })
+      .sort(function (a, b) {
+        return rank(a.s) - rank(b.s) || a.i - b.i;
+      })
+      .map(function (x) {
+        return x.s;
+      });
     if (!grid || !sheets.length) return;
     var cats = ['전체'];
     sheets.forEach(function (s) {
@@ -508,11 +564,11 @@
         .join('');
     }
     heroToy();
-    demo();
     shelf();
-    /* 단원 파일은 첫 화면을 그린 뒤에 불러와서 ‘이어서 하기’와 교육과정 영역을 채운다 */
+    /* 단원 파일은 첫 화면을 그린 뒤에 불러와서 ‘이어서 하기’, 미리 보기, 교육과정 영역을 채운다 */
     App.loadUnits(function () {
       continueButton();
+      demo();
       domains();
     });
   });

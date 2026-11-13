@@ -28,7 +28,7 @@
       '<div class="cover-spine"></div>' +
       '<div class="cover-label">' +
       App.cells(App.config.book.replace(/\s/g, ''), 'cover-title') +
-      '<p class="cover-sub">1학년부터 차근차근</p>' +
+      '<p class="cover-sub">고등 공통국어부터 초등까지</p>' +
       '</div>' +
       '<div class="cover-name"><span>이름</span><span class="cover-name-line">' + nameSlot + '</span></div>' +
       '<div class="cover-yarn">' + App.cat.yarn() + '</div>' +
