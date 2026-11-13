@@ -1,0 +1,1308 @@
+/* 움직이는 그림 ②③ (낱말·문장 / 말하기·읽기·쓰기) 스타일 */
+
+/* ───── 공통 부품 ───── */
+.wg-note {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.wg-foot {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+}
+.wg-feedback {
+  flex: 1 1 200px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.wg-feedback.is-good {
+  color: var(--mint-deep);
+}
+.wg-feedback.is-retry {
+  color: var(--coral-deep);
+}
+.wg-dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.wg-dots i {
+  width: 22px;
+  height: 6px;
+  border-radius: 99px;
+  background: var(--paper-3);
+}
+.wg-dots i.is-on {
+  background: var(--blue);
+}
+.wg-dots i.is-done {
+  background: var(--mint);
+}
+@keyframes wg-shake {
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+.is-shake {
+  animation: wg-shake 0.4s;
+}
+.wg-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.wg-choice {
+  min-height: 46px;
+  padding: 8px 16px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1.5px solid var(--line-2);
+  box-shadow: 0 2px 0 var(--line-2);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+  transition: transform 0.1s, box-shadow 0.1s, background 0.15s;
+}
+.wg-choice:hover {
+  background: var(--paper-2);
+}
+.wg-choice:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+.wg-choice.is-pick {
+  background: var(--blue-soft);
+  border-color: var(--blue);
+  box-shadow: 0 2px 0 var(--blue);
+  color: var(--blue-deep);
+}
+.wg-choice.is-right {
+  background: var(--mint-soft);
+  border-color: var(--mint);
+  box-shadow: 0 2px 0 var(--mint);
+  color: var(--mint-deep);
+}
+.wg-choice.is-wrong {
+  background: var(--coral-soft);
+  border-color: var(--coral);
+  box-shadow: 0 2px 0 var(--coral);
+  color: var(--coral-deep);
+}
+.wg-choice:disabled {
+  cursor: default;
+}
+.wg-choice:disabled:not(.is-right) {
+  opacity: 0.5;
+}
+
+/* 색 묶음 */
+.tone-a {
+  --t: var(--blue);
+  --t-soft: var(--blue-soft);
+  --t-deep: var(--blue-deep);
+}
+.tone-b {
+  --t: var(--coral);
+  --t-soft: var(--coral-soft);
+  --t-deep: var(--coral-deep);
+}
+.tone-c {
+  --t: var(--mint);
+  --t-soft: var(--mint-soft);
+  --t-deep: var(--mint-deep);
+}
+.tone-d {
+  --t: var(--amber);
+  --t-soft: var(--amber-soft);
+  --t-deep: #8a5a0c;
+}
+.tone-e {
+  --t: var(--violet);
+  --t-soft: var(--violet-soft);
+  --t-deep: #55409a;
+}
+.tone-f {
+  --t: #2a9db0;
+  --t-soft: #dcf2f5;
+  --t-deep: #19707e;
+}
+
+/* ───── 낱말 카드 ───── */
+.wg-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 10px;
+}
+.wg-cards.is-small {
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+}
+.wg-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 8px 12px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1.5px solid var(--line-2);
+  box-shadow: 0 3px 0 var(--line-2);
+  transition: transform 0.12s, box-shadow 0.12s, border-color 0.15s;
+}
+.wg-card:hover {
+  transform: translateY(-2px);
+}
+.wg-card:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+.wg-card.is-speaking {
+  border-color: var(--blue);
+  box-shadow: 0 3px 0 var(--blue);
+}
+.wg-card-pic {
+  font-size: 40px;
+  line-height: 1.15;
+}
+.wg-card-word {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 1.3;
+}
+.wg-card-desc {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.45;
+  text-align: center;
+}
+.wg-cards.is-flip .wg-card:not(.is-open) .wg-card-word,
+.wg-cards.is-flip .wg-card:not(.is-open) .wg-card-desc {
+  visibility: hidden;
+}
+.wg-cards.is-flip .wg-card.is-open .wg-card-word {
+  animation: word-pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+/* ───── 순서 맞추기 ───── */
+.wgo-pic {
+  font-size: 46px;
+  line-height: 1.2;
+  text-align: center;
+  letter-spacing: 6px;
+}
+.wgo-hint {
+  margin: 6px 0 12px;
+  font-size: 15px;
+  color: var(--ink-2);
+  text-align: center;
+}
+.wgo-line,
+.wgo-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.wgo-line {
+  min-height: 66px;
+  padding: 10px;
+  align-items: center;
+  border-radius: 16px;
+  background: #fff;
+  border: 2px dashed var(--line-2);
+  transition: border-color 0.2s, background 0.2s;
+}
+.wgo-line.is-right {
+  border-color: var(--mint);
+  background: var(--mint-soft);
+}
+.wgo-pool {
+  margin-top: 12px;
+  min-height: 48px;
+}
+.wgo-empty {
+  font-size: 14px;
+  color: var(--ink-3);
+}
+.wgo-tile {
+  min-height: 46px;
+  padding: 6px 16px;
+  border-radius: 13px;
+  background: var(--amber-soft);
+  border: 1.5px solid var(--amber);
+  box-shadow: 0 2px 0 var(--amber);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.3;
+  color: #6b4405;
+  transition: transform 0.1s, box-shadow 0.1s;
+  animation: word-pop 0.25s ease-out;
+}
+.wgo-tile:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+.wgo-line .wgo-tile {
+  background: var(--blue-soft);
+  border-color: var(--blue);
+  box-shadow: 0 2px 0 var(--blue);
+  color: var(--blue-deep);
+}
+
+/* ───── 띄어쓰기 ───── */
+.wgsp-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 22px;
+  padding: 20px 0 6px;
+}
+.wgsp-ch {
+  width: 44px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: 1.5px solid var(--grid);
+  margin-left: -1.5px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1;
+}
+.wgsp-gap {
+  position: relative;
+  z-index: 1;
+  width: 14px;
+  height: 48px;
+  margin: 0 -7px;
+  transition: width 0.18s, margin 0.18s;
+}
+.wgsp-gap span {
+  position: absolute;
+  left: 50%;
+  top: -19px;
+  transform: translateX(-50%);
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--blue);
+  opacity: 0;
+}
+.wgsp-gap::after {
+  content: '';
+  position: absolute;
+  inset: 8px 5px;
+  border-radius: 4px;
+  background: transparent;
+  transition: background 0.15s;
+}
+.wgsp-gap:hover::after {
+  background: rgba(44, 107, 217, 0.35);
+}
+.wgsp-gap.is-on {
+  width: 30px;
+  margin: 0 0 0 1.5px;
+}
+.wgsp-gap.is-on span {
+  opacity: 1;
+}
+.wgsp-gap.is-on::after {
+  inset: 0;
+  border-radius: 0;
+  background: var(--blue-soft);
+}
+.wgsp-gap.is-wrong span {
+  color: var(--coral-deep);
+}
+.wgsp-gap.is-wrong::after {
+  background: var(--coral-soft);
+}
+@media (max-width: 560px) {
+  .wgsp-ch {
+    width: 34px;
+    height: 40px;
+    font-size: 21px;
+  }
+  .wgsp-gap {
+    height: 40px;
+  }
+  .wgsp-gap.is-on {
+    width: 20px;
+  }
+}
+
+/* ───── 흉내 내는 말 ───── */
+.wgm-stage {
+  position: relative;
+  height: 168px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+  border-radius: 16px;
+  background: linear-gradient(#eaf3ff 62%, #dcefd9 62%);
+  overflow: hidden;
+}
+.wgm-kind {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+.wgm-actor {
+  font-size: 72px;
+  line-height: 1;
+}
+.wgm-word {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--coral-deep);
+  opacity: 0;
+}
+.wgm-word.is-on {
+  opacity: 1;
+  animation: word-pop 0.45s cubic-bezier(0.3, 1.7, 0.5, 1);
+}
+.anim-hop {
+  animation: a-hop 0.6s ease-in-out infinite;
+}
+.anim-wiggle {
+  animation: a-wiggle 0.5s ease-in-out infinite;
+}
+.anim-shake {
+  animation: a-shake 0.22s linear infinite;
+}
+.anim-spin {
+  animation: a-spin 1.2s linear infinite;
+}
+.anim-float {
+  animation: a-float 2.4s ease-in-out infinite;
+}
+.anim-twinkle {
+  animation: a-twinkle 0.8s ease-in-out infinite;
+}
+.anim-slide {
+  animation: a-slide 1.4s ease-in-out infinite;
+}
+.anim-grow {
+  animation: a-grow 1s ease-in-out infinite;
+}
+.anim-sway {
+  animation: a-sway 1.6s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+.anim-drop {
+  animation: a-drop 0.9s ease-in infinite;
+}
+@keyframes a-hop {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(-46px) scaleY(1.06);
+  }
+}
+@keyframes a-wiggle {
+  0%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
+}
+@keyframes a-shake {
+  0%,
+  100% {
+    transform: translate(-3px, 0);
+  }
+  50% {
+    transform: translate(3px, 1px);
+  }
+}
+@keyframes a-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes a-float {
+  0%,
+  100% {
+    transform: translate(-22px, 0);
+  }
+  50% {
+    transform: translate(22px, -12px);
+  }
+}
+@keyframes a-twinkle {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+}
+@keyframes a-slide {
+  0%,
+  100% {
+    transform: translateX(-60px);
+  }
+  50% {
+    transform: translateX(60px);
+  }
+}
+@keyframes a-grow {
+  0%,
+  100% {
+    transform: scale(0.85);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+@keyframes a-sway {
+  0%,
+  100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+@keyframes a-drop {
+  0% {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(46px);
+    opacity: 0.2;
+  }
+}
+
+/* ───── 짝 맞추기 · 문장 만들기 ───── */
+.wgp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.wgp-col,
+.wgsm-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wgp-head {
+  align-self: flex-start;
+  padding: 2px 10px;
+  border-radius: 8px;
+  background: var(--t-soft, var(--paper-3));
+  color: var(--t-deep, var(--ink-2));
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.wgp-item {
+  min-height: 46px;
+  padding: 6px 12px;
+  border-radius: 13px;
+  background: #fff;
+  border: 1.5px solid var(--line-2);
+  box-shadow: 0 2px 0 var(--line-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.35;
+  transition: transform 0.1s, box-shadow 0.1s, background 0.15s;
+}
+.wgp-item:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+.wgp-item.is-pick {
+  background: var(--t-soft, var(--blue-soft));
+  border-color: var(--t, var(--blue));
+  box-shadow: 0 2px 0 var(--t, var(--blue));
+  color: var(--t-deep, var(--blue-deep));
+}
+.wgp-item.is-done {
+  background: var(--t-soft);
+  border-color: var(--t);
+  box-shadow: none;
+  color: var(--t-deep);
+  cursor: default;
+}
+.wgsm-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1.5px solid var(--line);
+}
+.wgsm-pic {
+  font-size: 44px;
+  line-height: 1;
+  white-space: nowrap;
+}
+.wgsm-out {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.5;
+}
+.wgsm-out span {
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--t-soft);
+  color: var(--t-deep);
+}
+.wgsm-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+@media (max-width: 560px) {
+  .wgp-item {
+    font-size: 17px;
+    padding: 6px 8px;
+  }
+  .wgsm-out {
+    font-size: 20px;
+  }
+}
+
+/* ───── 나누어 담기 ───── */
+.wgb2-top {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14px;
+}
+.wgb2-card {
+  min-width: 150px;
+  min-height: 104px;
+  padding: 12px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  background: #fff;
+  border: 1.5px solid var(--line-2);
+  box-shadow: 0 4px 0 var(--line-2);
+}
+.wgb2-card.is-pop {
+  animation: word-pop 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.wgb2-pic {
+  font-size: 40px;
+  line-height: 1.2;
+}
+.wgb2-word {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.3;
+  text-align: center;
+}
+.wgb2-word.is-small {
+  font-size: 20px;
+}
+.wgb2-left {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.wgb2-bins {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+.wgb2-bin {
+  min-height: 84px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border-radius: 16px;
+  background: var(--t-soft);
+  border: 2px solid var(--t);
+  box-shadow: 0 3px 0 var(--t);
+  color: var(--t-deep);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.wgb2-bin:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+.wgb2-bin strong {
+  font-size: 17px;
+}
+.wgb2-got {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+/* ───── 고양이가 나오는 그림들 ───── */
+.wg-cat {
+  width: 84px;
+  flex: none;
+}
+.wg-cat.is-big {
+  width: 128px;
+}
+
+/* 문장 부호 */
+.wgpu-tile {
+  min-width: 58px;
+  height: 58px;
+  font-size: 34px;
+}
+.wgpu-tile.is-on {
+  --rc: var(--ink);
+  --rc-deep: #000;
+}
+.wgpu-main {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  gap: 18px;
+  align-items: center;
+}
+.wgpu-mark {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: #fff;
+  border: 1.5px solid var(--grid);
+}
+.wgpu-big {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 84px;
+  line-height: 1;
+  color: var(--coral-deep);
+}
+.wgpu-name {
+  font-family: var(--font-display);
+  font-size: 26px;
+}
+.wgpu-when {
+  margin-top: 2px;
+  color: var(--ink-2);
+}
+.wgpu-bubble {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.wgpu-bubble .wg-cat {
+  width: 58px;
+}
+.wgpu-ex {
+  padding: 8px 14px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1.5px solid var(--line-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+}
+.wgpu-ex b {
+  color: var(--coral-deep);
+  font-size: 1.2em;
+}
+@media (max-width: 560px) {
+  .wgpu-main {
+    grid-template-columns: 76px 1fr;
+    gap: 12px;
+  }
+  .wgpu-big {
+    font-size: 56px;
+  }
+}
+
+/* 마음을 나타내는 말 */
+.wgf-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.wgf-bubble {
+  position: relative;
+  flex: 1;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1.5px solid var(--line-2);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.wgf-bubble::before {
+  content: '';
+  position: absolute;
+  left: -9px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  background: #fff;
+  border-left: 1.5px solid var(--line-2);
+  border-bottom: 1.5px solid var(--line-2);
+  transform: rotate(45deg);
+}
+.wgf-line {
+  flex: 1 1 160px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 1.5;
+}
+
+/* 목소리 크기 */
+.wgv-stage {
+  position: relative;
+  margin: 14px 0;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  overflow: hidden;
+}
+.wgv-pic {
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  font-size: 30px;
+}
+.wgv-bubble {
+  padding: 0.4em 0.8em;
+  border-radius: 1em;
+  background: var(--blue-soft);
+  color: var(--blue-deep);
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  transition: font-size 0.2s cubic-bezier(0.3, 1.5, 0.5, 1);
+  white-space: nowrap;
+}
+.wgv-bubble[data-level='4'] {
+  background: var(--coral-soft);
+  color: var(--coral-deep);
+}
+.wgv-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+.wgv-range {
+  flex: 1;
+  height: 32px;
+  accent-color: var(--blue);
+}
+.wgv-level {
+  min-width: 78px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* 말차례 */
+.wgt-stage {
+  position: relative;
+  margin-top: 14px;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.wgt-line {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.wgt-line.is-in {
+  opacity: 1;
+  transform: none;
+}
+.wgt-line.is-dim {
+  opacity: 0.45;
+}
+.wgt-line.who-1 {
+  flex-direction: row-reverse;
+}
+.wgt-face {
+  font-size: 34px;
+  line-height: 1;
+}
+.wgt-bubble {
+  max-width: 78%;
+  padding: 9px 14px;
+  border-radius: 16px 16px 16px 4px;
+  background: var(--blue-soft);
+  color: var(--ink);
+  font-size: 16.5px;
+  line-height: 1.5;
+}
+.wgt-bubble b {
+  display: block;
+  font-size: 12px;
+  color: var(--blue-deep);
+}
+.who-1 .wgt-bubble {
+  border-radius: 16px 16px 4px 16px;
+  background: var(--amber-soft);
+}
+.who-1 .wgt-bubble b {
+  color: #8a5a0c;
+}
+.wgt-stage.is-clash {
+  min-height: 130px;
+}
+.wgt-stage.is-clash .wgt-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 18px;
+  animation: a-shake 0.18s linear infinite;
+}
+.wgt-stage.is-clash .wgt-line.who-1 {
+  top: 34px;
+  animation-delay: -0.09s;
+}
+.wgt-stage.is-clash .wgt-bubble {
+  filter: blur(1.2px);
+}
+.wgt-noise {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  margin-left: -70px;
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--coral-deep);
+  animation: a-wiggle 0.3s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+/* 띄어 읽기 */
+.wgr-line {
+  padding: 18px 16px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 23px;
+  line-height: 2.3;
+  text-align: center;
+}
+.wgr-chunk {
+  padding: 3px 5px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.wgr-chunk.is-on {
+  background: var(--blue);
+  color: #fff;
+}
+.wgr-mark {
+  display: inline-block;
+  margin: 0 3px;
+  transform: translateY(-12px);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--coral);
+}
+.wgr-mark.is-long {
+  color: var(--coral-deep);
+  font-size: 17px;
+  letter-spacing: -0.42em;
+  padding-right: 0.42em;
+}
+.wg-read .wgs-actions {
+  justify-content: center;
+  margin-top: 14px;
+}
+
+/* 이야기·시 */
+.wgst-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin-bottom: 12px;
+}
+.wgst-head > div {
+  flex: 1 1 110px;
+  min-width: 0;
+}
+.wgst-head .btn {
+  flex: none;
+}
+.wgst-pic {
+  font-size: 38px;
+  line-height: 1;
+}
+.wgst-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.35;
+}
+.wgst-by {
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+.wgst-body {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1.5px solid var(--line);
+}
+.wgst-line {
+  margin: 0;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 18px;
+  line-height: 1.85;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.wgst-line:hover {
+  background: var(--paper-2);
+}
+.wgst-line.is-on,
+.wgst-line.is-speaking {
+  background: #fff2c2;
+}
+.wgst-gap {
+  display: block;
+  height: 14px;
+}
+.wgst-body.is-poem {
+  text-align: center;
+}
+.wgst-body.is-poem .wgst-line {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+}
+
+/* 그림일기 */
+.wgd-pick {
+  display: grid;
+  gap: 12px;
+}
+.wgd-group {
+  display: grid;
+  gap: 6px;
+}
+.wgd-group .wg-choice {
+  min-height: 40px;
+  padding: 6px 12px;
+  font-size: 14.5px;
+}
+.wgd-group .wg-choice.is-pick {
+  background: var(--t-soft);
+  border-color: var(--t);
+  box-shadow: 0 2px 0 var(--t);
+  color: var(--t-deep);
+}
+.wgd-page {
+  margin-top: 16px;
+  border-radius: 14px;
+  background: #fff;
+  border: 2px solid var(--ink);
+  overflow: hidden;
+}
+.wgd-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+}
+.wgd-tag {
+  padding: 1px 8px;
+  border-radius: 7px;
+  background: var(--t-soft);
+  color: var(--t-deep);
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 700;
+}
+.wgd-pic {
+  position: relative;
+  height: 150px;
+  display: grid;
+  place-items: center;
+  border-bottom: 2px solid var(--ink);
+  background: linear-gradient(#f2f8ff 64%, #eef6e6 64%);
+}
+.wgd-pic .wgd-tag {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+}
+.wgd-emoji {
+  font-size: 76px;
+  line-height: 1;
+}
+.wgd-sky {
+  position: absolute;
+  right: 16px;
+  top: 10px;
+  font-size: 34px;
+}
+.wgd-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  padding: 12px 14px 14px;
+}
+.wgd-text p {
+  flex: 1 1 100%;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 2;
+}
+.wgd-text p span {
+  background: var(--t-soft);
+  color: var(--t-deep);
+  border-radius: 6px;
+  padding: 2px 4px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* ───── 글에서 골라 누르기 ───── */
+.wgpk-body {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1.5px solid var(--line);
+}
+.wgpk-title {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-size: 19px;
+}
+.wgpk-text {
+  font-size: 17.5px;
+  line-height: 2.15;
+}
+.wgpk-part {
+  display: inline;
+  padding: 3px 6px;
+  border-radius: 9px;
+  background: var(--paper);
+  box-shadow: inset 0 -2px 0 var(--line-2);
+  font: inherit;
+  line-height: inherit;
+  text-align: left;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background 0.15s, color 0.15s;
+}
+.wgpk-part:hover {
+  background: var(--blue-soft);
+}
+.wgpk-part.is-right {
+  background: var(--mint-soft);
+  box-shadow: inset 0 -2px 0 var(--mint);
+  color: var(--mint-deep);
+  font-weight: 700;
+}
+.wgpk-part.is-wrong {
+  background: var(--coral-soft);
+  box-shadow: inset 0 -2px 0 var(--coral);
+  color: var(--coral-deep);
+}
+.wgpk-body.is-lines .wgpk-text {
+  display: grid;
+  gap: 8px;
+  line-height: 1.7;
+}
+.wgpk-body.is-lines .wgpk-part {
+  display: block;
+  padding: 9px 13px;
+}
+
+/* ───── 표정과 말투 ───── */
+.wgfc-mean {
+  margin: -4px 0 14px;
+  padding: 9px 14px;
+  border-radius: 12px;
+  background: var(--amber-soft);
+  color: #6b4405;
+  font-size: 15.5px;
+  font-weight: 700;
+  min-height: 1.7em;
+}
+.wg-faces .say-btn span {
+  font-size: 13px;
+}
+
+/* ───── 발표 자료 만들기 ───── */
+.wgsl-slide {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  flex-direction: column;
+  padding: 4.5% 5.5%;
+  border-radius: 14px;
+  background: linear-gradient(160deg, #fffdf8, #f1f6ff);
+  border: 2px solid var(--blue-deep);
+  box-shadow: 0 8px 20px rgba(31, 60, 120, 0.14);
+  overflow: hidden;
+  container-type: inline-size;
+}
+.wgsl-title {
+  padding-bottom: 2cqw;
+  border-bottom: 0.6cqw solid var(--coral);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 6cqw;
+  line-height: 1.25;
+}
+.wgsl-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  gap: 4cqw;
+  align-items: center;
+  padding-top: 2.5cqw;
+}
+.wgsl-pic {
+  font-size: 17cqw;
+  line-height: 1;
+  text-align: center;
+}
+.wgsl-points {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2cqw;
+  font-size: 4.3cqw;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.wgsl-points li {
+  position: relative;
+  padding-left: 5cqw;
+}
+.wgsl-points li::before {
+  content: '';
+  position: absolute;
+  left: 0.8cqw;
+  top: 0.5em;
+  width: 2cqw;
+  height: 2cqw;
+  border-radius: 50%;
+  background: var(--blue);
+}
+.wgsl-long {
+  font-size: 3cqw;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.wgsl-checks {
+  margin: 12px 0 14px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 5px;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+.wgsl-checks li {
+  position: relative;
+  padding-left: 26px;
+}
+.wgsl-checks li::before {
+  position: absolute;
+  left: 2px;
+  top: 0;
+  font-weight: 900;
+}
+.wgsl-checks li.is-ok {
+  color: var(--mint-deep);
+}
+.wgsl-checks li.is-ok::before {
+  content: '✓';
+}
+.wgsl-checks li.is-no {
+  color: var(--coral-deep);
+}
+.wgsl-checks li.is-no::before {
+  content: '✗';
+}

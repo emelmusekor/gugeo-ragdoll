@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>솜이네 마루 — 국어랙돌</title>
+    <meta name="description" content="공부하다 쉬고 싶을 때 놀다 가는 곳. 랙돌 고양이 솜이와 끝말잇기, 초성 퀴즈, 삼행시 짓기를 해요." />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/maru.css" />
+  </head>
+  <body class="maru-page">
+    <header class="site-head">
+      <div class="wrap">
+        <a class="logo" href="index.html" aria-label="국어랙돌 처음으로">
+          <span data-yarn></span><span data-brand="brand">국어랙돌</span>
+        </a>
+        <nav class="site-nav" aria-label="주요 메뉴">
+          <a href="handbook.html">국어 공책</a>
+          <a href="index.html#shelf">학습지 서랍</a>
+        </nav>
+        <a class="btn small" href="handbook.html">공부하러 가기</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="maru-stage" aria-label="솜이네 마루">
+        <div class="maru-stage-inner">
+          <div class="maru-scene" id="maru-scene"></div>
+          <div class="maru-cat" id="maru-cat"></div>
+          <p class="maru-bubble" id="maru-bubble" aria-live="polite">어서 와! 오늘은 뭐 하고 놀까?</p>
+        </div>
+      </section>
+
+      <section class="maru-play">
+        <div class="wrap">
+          <h1 class="display maru-title"><span data-brand="rest">솜이네 마루</span></h1>
+          <p class="maru-lead">공부하다 쉬고 싶을 때 놀다 가는 곳이에요. 방석을 하나 골라 앉아 보세요.</p>
+          <div class="maru-tabs" role="tablist" aria-label="놀이 고르기" id="maru-tabs"></div>
+          <div class="maru-panel" id="maru-panel" role="tabpanel"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-foot maru-foot">
+      <div class="wrap">
+        <p>지은 삼행시와 놀이 기록은 서버로 보내지 않고 이 기기의 브라우저에만 저장됩니다.</p>
+      </div>
+    </footer>
+
+    <script src="assets/js/core/config.js"></script>
+    <script src="assets/js/core/dom.js"></script>
+    <script src="assets/js/core/hangul.js"></script>
+    <script src="assets/js/core/cat.js"></script>
+    <script src="assets/js/core/scene.js"></script>
+    <script src="assets/js/core/cover.js"></script>
+    <script src="assets/js/core/tts.js"></script>
+    <script src="assets/js/core/store.js"></script>
+    <script src="assets/js/data/words.js"></script>
+    <script src="assets/js/pages/maru.js"></script>
+  </body>
+</html>

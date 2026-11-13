@@ -1,0 +1,601 @@
+/* 학습지 인쇄 화면 (A4 세로) */
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+body.print-page {
+  background: #e9e2d3;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 10px 18px;
+  background: rgba(251, 247, 238, 0.95);
+  border-bottom: 1px solid var(--line);
+}
+.toolbar strong {
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+.toolbar-note {
+  flex: 1 1 260px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+#pages {
+  padding: 18px 0 40px;
+  overflow-x: auto;
+}
+
+.pg {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 210mm;
+  height: 297mm;
+  margin: 0 auto 18px;
+  padding: 13mm 14mm 10mm;
+  background: #fff;
+  box-shadow: 0 6px 24px rgba(74, 51, 41, 0.18);
+  overflow: hidden;
+  break-after: page;
+  page-break-after: always;
+  color: #222;
+}
+.pg:last-child {
+  break-after: auto;
+  page-break-after: auto;
+}
+
+.pg-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8mm;
+  padding-bottom: 3mm;
+  border-bottom: 0.8mm double #e2a79b;
+}
+.pg-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 7mm;
+  line-height: 1.25;
+}
+.pg-sub {
+  margin-top: 1mm;
+  font-size: 3.4mm;
+  color: #6b6058;
+}
+.pg-name {
+  flex: none;
+  font-size: 3.6mm;
+  color: #6b6058;
+  white-space: nowrap;
+  line-height: 2.1;
+  text-align: right;
+}
+.pg-name i {
+  display: inline-block;
+  width: 26mm;
+  border-bottom: 0.3mm solid #9a8f85;
+  vertical-align: baseline;
+}
+.pg-name i.short {
+  width: 9mm;
+}
+.pg-body {
+  flex: 1;
+  min-height: 0;
+  padding-top: 5mm;
+}
+.pg-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4mm;
+  font-size: 3mm;
+  color: #8b7e72;
+}
+.pg-foot .foot-cat {
+  width: 9mm;
+  flex: none;
+}
+.pg-foot span:nth-child(2) {
+  flex: 1;
+}
+.pg-note {
+  margin-top: 4mm;
+  padding: 2.5mm 4mm;
+  border-radius: 2.5mm;
+  background: #fbefd5;
+  color: #6b4405;
+  font-size: 3.4mm;
+  line-height: 1.6;
+}
+
+/* 칸 */
+.row {
+  display: flex;
+  align-items: center;
+}
+.row + .row {
+  margin-top: var(--gap, 0);
+}
+.cell {
+  position: relative;
+  flex: none;
+  width: var(--c, 16mm);
+  height: var(--c, 16mm);
+  display: grid;
+  place-items: center;
+  border: 0.3mm solid #e2a79b;
+  margin-left: -0.3mm;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(var(--c, 16mm) * 0.7);
+  line-height: 1;
+  background:
+    linear-gradient(#f1d3cc, #f1d3cc) center / 0.2mm 100% no-repeat,
+    linear-gradient(#f1d3cc, #f1d3cc) center / 100% 0.2mm no-repeat;
+}
+.row .cell:first-of-type {
+  margin-left: 0;
+}
+.cell.ghost {
+  color: #d3cbc0;
+}
+.cell.punc {
+  place-items: end start;
+  padding: 0 0 calc(var(--c, 16mm) * 0.12) calc(var(--c, 16mm) * 0.14);
+}
+.cell.plain {
+  background: none;
+}
+.cell svg {
+  width: 100%;
+  height: 100%;
+}
+.block {
+  margin-bottom: 4.5mm;
+  break-inside: avoid;
+}
+.block .row + .row {
+  margin-top: -0.3mm;
+}
+
+/* 자모 따라 쓰기 */
+.jamo-row {
+  --c: 19mm;
+  display: flex;
+  align-items: center;
+  margin-bottom: 6.5mm;
+}
+.jamo-row.is-big {
+  --c: 19mm;
+  margin-bottom: 21mm;
+}
+.jamo-label {
+  width: 11mm;
+  flex: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 3.9mm;
+  line-height: 1.3;
+  text-align: center;
+  color: #5a4e45;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.1em;
+}
+.jm {
+  fill: none;
+  stroke: #222;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.jt {
+  fill: none;
+  stroke: #d9d1c6;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.jn {
+  fill: #e8604c;
+  stroke: #fff;
+  stroke-width: 1.2;
+}
+.jnt {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-anchor: middle;
+}
+
+/* 글자표 */
+.syl-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+.syl-table th,
+.syl-table td {
+  height: 14.6mm;
+  border: 0.3mm solid #e2a79b;
+  text-align: center;
+  font-size: 7.4mm;
+  line-height: 1;
+}
+.syl-table th {
+  background: #fce6e1;
+  color: #c4452f;
+  font-size: 6.6mm;
+}
+.syl-table thead th {
+  background: #e4eefd;
+  color: #1e4fa6;
+}
+.syl-table th.corner {
+  background: #fff;
+}
+.syl-table td.blank {
+  color: transparent;
+}
+
+/* 띄어쓰기 */
+.sp-item {
+  margin-bottom: 6mm;
+  break-inside: avoid;
+}
+.sp-q {
+  display: flex;
+  align-items: baseline;
+  gap: 3mm;
+  margin-bottom: 2mm;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 6.4mm;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+}
+.sp-q b {
+  flex: none;
+  width: 7mm;
+  height: 7mm;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e8604c;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 3.6mm;
+  letter-spacing: 0;
+  transform: translateY(-0.8mm);
+}
+
+/* 받아쓰기 */
+.dict-row {
+  --c: 15.3mm;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2.4mm;
+}
+.dict-no {
+  width: 9mm;
+  flex: none;
+  font-weight: 700;
+  font-size: 4.4mm;
+  color: #c4452f;
+}
+.dict-score {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3mm;
+  margin-top: 4mm;
+  font-size: 4mm;
+  font-weight: 700;
+}
+.dict-score i {
+  display: inline-block;
+  width: 16mm;
+  height: 10mm;
+  border: 0.4mm solid #9a8f85;
+  border-radius: 2mm;
+}
+.key-cols {
+  columns: 3;
+  column-gap: 8mm;
+}
+.key-set {
+  break-inside: avoid;
+  margin-bottom: 6mm;
+}
+.key-set h3 {
+  font-family: var(--font-display);
+  font-size: 4.6mm;
+  margin-bottom: 1.5mm;
+  color: #c4452f;
+}
+.key-set ol {
+  margin: 0;
+  padding-left: 6mm;
+  font-size: 4mm;
+  line-height: 1.75;
+}
+
+/* 그림일기 */
+.diary-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4mm;
+  padding: 3mm 4mm;
+  border: 0.5mm solid #222;
+  border-bottom: 0;
+  font-size: 4.2mm;
+  font-weight: 700;
+}
+.diary-top i {
+  display: inline-block;
+  width: 12mm;
+  border-bottom: 0.3mm solid #9a8f85;
+}
+.diary-top .weather {
+  display: flex;
+  align-items: center;
+  gap: 2.4mm;
+  font-size: 5mm;
+  font-weight: 400;
+}
+.diary-top .weather small {
+  font-size: 4.2mm;
+  font-weight: 700;
+}
+.diary-pic {
+  height: 104mm;
+  border: 0.5mm solid #222;
+  border-bottom: 0;
+  position: relative;
+}
+.diary-pic span {
+  position: absolute;
+  left: 3mm;
+  top: 2.5mm;
+  font-size: 3.4mm;
+  color: #9a8f85;
+}
+.diary-text {
+  --c: 18.2mm;
+  border: 0.5mm solid #222;
+}
+.diary-text .row .cell {
+  border-color: #e2a79b;
+}
+
+@media screen and (max-width: 840px) {
+  .pg {
+    transform-origin: top left;
+  }
+}
+
+@media print {
+  body.print-page {
+    background: #fff;
+  }
+  .toolbar {
+    display: none;
+  }
+  #pages {
+    padding: 0;
+    overflow: visible;
+  }
+  .pg {
+    margin: 0;
+    box-shadow: none;
+  }
+}
+
+/* ───── 3~4학년 학습지 ───── */
+
+/* 국어사전 차례 */
+.dict-group {
+  display: flex;
+  align-items: center;
+  gap: 4mm;
+  margin-bottom: 3.8mm;
+  break-inside: avoid;
+}
+.dict-group > b,
+.dict-form > b,
+.rw-q > b {
+  flex: none;
+  width: 7mm;
+  height: 7mm;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e8604c;
+  color: #fff;
+  font-size: 3.6mm;
+}
+.dict-group > div {
+  flex: 1;
+}
+.dict-given {
+  display: flex;
+  gap: 3mm;
+  margin-bottom: 2mm;
+}
+.dict-given span {
+  padding: 1mm 4mm;
+  border-radius: 2mm;
+  background: #e4eefd;
+  color: #1e4fa6;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 5.4mm;
+}
+.dict-slots {
+  display: flex;
+  align-items: center;
+  gap: 2mm;
+}
+.dict-slots span {
+  flex: 1;
+  height: 10.6mm;
+  display: grid;
+  place-items: center;
+  border: 0.35mm solid #cdbfa8;
+  border-radius: 2mm;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 5.6mm;
+}
+.dict-slots em,
+.dict-form em {
+  font-style: normal;
+  color: #8b7e72;
+  font-size: 4.4mm;
+}
+.is-key {
+  color: #c4452f;
+}
+.dict-forms {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6.5mm 10mm;
+  margin-top: 3mm;
+}
+.dict-form {
+  display: flex;
+  align-items: center;
+  gap: 3mm;
+}
+.dict-word {
+  width: 24mm;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 5.8mm;
+}
+.dict-blank {
+  flex: 1;
+  height: 12mm;
+  display: grid;
+  place-items: center;
+  border-bottom: 0.4mm solid #9a8f85;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 5.8mm;
+}
+
+/* 고쳐 쓰기 */
+.rw-item {
+  margin-bottom: 3.4mm;
+  break-inside: avoid;
+}
+.rw-q {
+  display: flex;
+  align-items: center;
+  gap: 3mm;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 5.4mm;
+  line-height: 1.4;
+}
+.rw-line {
+  height: 8.6mm;
+  margin-left: 10mm;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 1mm;
+  border-bottom: 0.3mm solid #e2a79b;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 5.2mm;
+}
+
+/* 쓰기 양식 */
+.form-sec {
+  margin-bottom: 3.2mm;
+  border: 0.35mm solid #cdbfa8;
+  border-radius: 2.5mm;
+  overflow: hidden;
+  break-inside: avoid;
+}
+.form-label {
+  display: flex;
+  align-items: baseline;
+  gap: 3mm;
+  padding: 1.4mm 3.5mm;
+  background: #fbefd5;
+  font-size: 3.9mm;
+  color: #6b4405;
+}
+.form-label span {
+  font-size: 3.1mm;
+  color: #8b7e72;
+}
+.form-lines {
+  padding: 0 3.5mm;
+}
+.form-lines i {
+  display: block;
+  height: 9.4mm;
+  border-bottom: 0.25mm solid #e2a79b;
+}
+.form-lines i:last-child {
+  border-bottom: 0;
+}
+.form-checks {
+  margin-top: 4mm;
+  padding: 2.5mm 4mm;
+  border-radius: 2.5mm;
+  background: #e4eefd;
+  color: #1e4fa6;
+  font-size: 3.5mm;
+}
+.form-checks ul {
+  margin: 1.5mm 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2mm 6mm;
+}
+.form-checks li::before {
+  content: '☐ ';
+}
+
+/* 원고지 */
+.ms {
+  width: fit-content;
+  margin-inline: auto;
+}
+.ms-row {
+  display: flex;
+  margin-bottom: 2.7mm;
+}
+.ms-row span {
+  width: 9mm;
+  height: 8.9mm;
+  border: 0.25mm solid #d98f80;
+  margin-left: -0.25mm;
+}
+.ms-row span:first-child {
+  margin-left: 0;
+}

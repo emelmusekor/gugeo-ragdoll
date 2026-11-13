@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>학습지 인쇄 — 국어랙돌</title>
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/print.css" />
+  </head>
+  <body class="print-page">
+    <div class="toolbar">
+      <a class="btn small ghost" href="index.html#shelf">← 학습지 서랍</a>
+      <strong id="toolbar-title">학습지</strong>
+      <span class="toolbar-note">인쇄 창에서 ‘PDF로 저장’을 고르면 파일로 받을 수 있어요. 용지는 A4, 여백은 ‘없음’이 가장 잘 맞아요.</span>
+      <button class="btn small" type="button" id="print-btn">인쇄하기</button>
+    </div>
+    <main id="pages"></main>
+
+    <script src="assets/js/core/config.js"></script>
+    <script src="assets/js/core/dom.js"></script>
+    <script src="assets/js/core/hangul.js"></script>
+    <script src="assets/js/core/strokes.js"></script>
+    <script src="assets/js/core/cat.js"></script>
+    <script src="assets/js/data/sheets.js"></script>
+    <script src="assets/js/pages/print.js"></script>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>국어 공책 — 국어랙돌</title>
+    <meta name="description" content="공책을 펴고 학년과 학기를 고르면 단원이 두루마리로 펼쳐져요. 2022 개정 교육과정 초등 1~4학년 국어 성취기준 연동." />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/cover.css" />
+    <link rel="stylesheet" href="assets/css/widgets.css" />
+    <link rel="stylesheet" href="assets/css/widgets-play.css" />
+    <link rel="stylesheet" href="assets/css/handbook.css" />
+    <link rel="stylesheet" href="assets/css/scroll.css" />
+  </head>
+  <body class="book-page">
+    <header class="site-head">
+      <div class="wrap">
+        <a class="logo" href="index.html" aria-label="국어랙돌 처음으로">
+          <span data-yarn></span><span data-brand="brand">국어랙돌</span>
+        </a>
+        <nav class="site-nav" aria-label="주요 메뉴">
+          <a href="#/home">학년 고르기</a>
+          <a href="#/map">교육과정 지도</a>
+          <a href="index.html#shelf">학습지 서랍</a>
+          <a href="maru.html">마루</a>
+        </nav>
+        <a class="btn small ghost" href="#/" id="close-book">공책 덮기</a>
+      </div>
+    </header>
+
+    <main class="desk" id="desk">
+      <div class="book is-closed" id="book" aria-live="polite"></div>
+      <p class="desk-hint" id="desk-hint">공책을 눌러서 펴 보세요</p>
+    </main>
+
+    <!-- 단원 두루마리 -->
+    <div class="scroll-view" id="scroll-view" hidden></div>
+
+    <noscript><p style="padding: 24px; text-align: center">국어 공책은 자바스크립트를 켜야 볼 수 있어요.</p></noscript>
+
+    <script src="assets/js/core/config.js"></script>
+    <script src="assets/js/core/dom.js"></script>
+    <script src="assets/js/core/hangul.js"></script>
+    <script src="assets/js/core/strokes.js"></script>
+    <script src="assets/js/core/cat.js"></script>
+    <script src="assets/js/core/cover.js"></script>
+    <script src="assets/js/core/tts.js"></script>
+    <script src="assets/js/core/store.js"></script>
+    <script src="assets/js/data/standards.js"></script>
+    <script src="assets/js/data/words.js"></script>
+    <script src="assets/js/data/units.js"></script>
+    <script src="assets/js/data/units-1-1.js"></script>
+    <script src="assets/js/data/units-1-2.js"></script>
+    <script src="assets/js/data/units-2-1.js"></script>
+    <script src="assets/js/data/units-2-2.js"></script>
+    <script src="assets/js/data/units-3-1.js"></script>
+    <script src="assets/js/data/units-3-2.js"></script>
+    <script src="assets/js/data/units-4-1.js"></script>
+    <script src="assets/js/data/units-4-2.js"></script>
+    <script src="assets/js/widgets/letters.js"></script>
+    <script src="assets/js/widgets/play.js"></script>
+    <script src="assets/js/widgets/talk.js"></script>
+    <script src="assets/js/widgets/read.js"></script>
+    <script src="assets/js/pages/scroll.js"></script>
+    <script src="assets/js/pages/handbook.js"></script>
+  </body>
+</html>
