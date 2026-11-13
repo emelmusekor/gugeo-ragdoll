@@ -741,7 +741,7 @@ body.is-scroll-open {
 .blk-table tbody th {
   background: var(--paper-2);
   font-weight: 700;
-  white-space: nowrap;
+  min-width: 4.4em;
 }
 .blk-table tr > :last-child {
   border-right: 0;
@@ -762,8 +762,5 @@ body.is-scroll-open {
   .blk-table th,
   .blk-table td {
     padding: 8px 9px;
-  }
-  .blk-table tbody th {
-    white-space: normal;
   }
 }

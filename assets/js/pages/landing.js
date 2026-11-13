@@ -508,9 +508,12 @@
         .join('');
     }
     heroToy();
-    continueButton();
     demo();
-    domains();
     shelf();
+    /* 단원 파일은 첫 화면을 그린 뒤에 불러와서 ‘이어서 하기’와 교육과정 영역을 채운다 */
+    App.loadUnits(function () {
+      continueButton();
+      domains();
+    });
   });
 })();

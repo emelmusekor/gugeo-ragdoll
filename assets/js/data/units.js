@@ -26,6 +26,40 @@
 
   App.units = [];
 
+  /* 사이트에 실린 단원 파일(학기 key 와 같다). 새 학기 파일 units-<key>.js 를 다 쓰면 여기에 더한다.
+     화면들은 이 목록을 보고 단원 파일을 불러오므로, HTML 에는 따로 적지 않아도 된다. */
+  App.unitFiles = ['1-1', '1-2', '2-1', '2-2', '3-1', '3-2', '4-1', '4-2', '6-1', '7-2', '9-1'];
+
+  /* 단원 파일을 쓴 차례대로 불러온 뒤 done 을 부른다. 이미 불러왔으면 바로 부른다. */
+  var loadState = 0; // 0 아직 · 1 불러오는 중 · 2 끝
+  var waiting = [];
+  App.loadUnits = function (done) {
+    if (loadState === 2) {
+      if (done) done();
+      return;
+    }
+    if (done) waiting.push(done);
+    if (loadState === 1) return;
+    loadState = 1;
+    var left = App.unitFiles.length;
+    function finish() {
+      loadState = 2;
+      waiting.splice(0).forEach(function (f) {
+        f();
+      });
+    }
+    if (!left) return finish();
+    App.unitFiles.forEach(function (key) {
+      var s = document.createElement('script');
+      s.src = 'assets/js/data/units-' + key + '.js';
+      s.async = false; // 넣은 차례대로 실행되게
+      s.onload = s.onerror = function () {
+        if (--left === 0) finish();
+      };
+      document.head.appendChild(s);
+    });
+  };
+
   App.semesters = [
     { key: '1-1', grade: 1, sem: 1, band: '1-2', title: '한글과 친해져요', desc: '자음자와 모음자부터 글자, 낱말, 첫 문장까지' },
     { key: '1-2', grade: 1, sem: 2, band: '1-2', title: '문장과 이야기를 만나요', desc: '마음을 말하고, 그림일기를 쓰고, 이야기를 읽어요' },

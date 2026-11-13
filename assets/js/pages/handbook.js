@@ -503,14 +503,18 @@
     hint = document.getElementById('desk-hint');
     App.applyBrand();
     App.mountYarns();
-    route();
-    window.addEventListener('hashchange', route);
-    var wasWide = wide();
-    window.addEventListener('resize', function () {
-      if (wide() !== wasWide) {
-        wasWide = wide();
-        if (!flipping && !App.scroll.isOpen()) show(build(parse()), curKey, curDepth, true);
-      }
+    /* 표지는 단원 파일 없이도 그릴 수 있으니 먼저 보여 주고, 단원 파일을 다 불러온 뒤에 길을 찾는다 */
+    if (!location.hash.replace(/^#\/?/, '')) show(spreadCover(), 'cover', 0, true);
+    App.loadUnits(function () {
+      route();
+      window.addEventListener('hashchange', route);
+      var wasWide = wide();
+      window.addEventListener('resize', function () {
+        if (wide() !== wasWide) {
+          wasWide = wide();
+          if (!flipping && !App.scroll.isOpen()) show(build(parse()), curKey, curDepth, true);
+        }
+      });
     });
   });
 })();
