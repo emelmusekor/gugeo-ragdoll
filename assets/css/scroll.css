@@ -764,3 +764,18 @@ body.is-scroll-open {
     padding: 8px 9px;
   }
 }
+@media (max-width: 640px) {
+  /* 좁은 화면에서는 머리글 칸도 줄을 바꿔 표가 옆으로 넘치지 않게 */
+  .blk-table thead th {
+    white-space: normal;
+    word-break: break-all;
+    font-size: 13.5px;
+  }
+  .blk-table td,
+  .blk-table tbody th {
+    word-break: break-all;
+  }
+  .blk-table tbody th {
+    min-width: 0;
+  }
+}
