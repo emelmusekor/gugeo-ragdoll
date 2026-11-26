@@ -5,7 +5,7 @@
   var X = App.exam;
   var NUM = '①②③④⑤';
 
-  var state = { tab: 'suneung' };
+  var state = { tab: 'suneung', area: '전체', todo: false };
   var app;
   var run = null; // 지금 푸는 세트
 
@@ -45,8 +45,25 @@
 
     var tr = X.track(state.tab);
     app.appendChild(h('p', { class: 'ex-trackdesc' }, tr.desc));
+    /* 영역 거르개: ‘독서 · 인문’ 의 앞쪽 낱말로 묶는다 */
+    var all = X.sets.filter(function (s) { return s.track === tr.id; });
+    var areas = [];
+    all.forEach(function (s) { var a = s.area.split(' · ')[0]; if (areas.indexOf(a) < 0) areas.push(a); });
+    if (areas.indexOf(state.area) < 0) state.area = '전체';
+    if (areas.length > 1) {
+      app.appendChild(h('div', { class: 'ex-filter', role: 'group', 'aria-label': '영역 고르기' },
+        ['전체'].concat(areas).map(function (a) {
+          var n = a === '전체' ? all.length : all.filter(function (s) { return s.area.split(' · ')[0] === a; }).length;
+          return h('button', { type: 'button', class: 'chip' + (state.area === a ? ' is-on' : ''), 'aria-pressed': state.area === a ? 'true' : 'false', onclick: function () { state.area = a; renderLobby(); } }, a + ' ' + n);
+        }),
+        h('label', { class: 'ex-todo' }, h('input', { type: 'checkbox', checked: state.todo, onchange: function (e) { state.todo = e.target.checked; renderLobby(); } }), ' 안 푼 세트만')));
+    }
     var grid = h('div', { class: 'ex-sets' });
-    X.sets.filter(function (s) { return s.track === tr.id; }).forEach(function (s) {
+    var shown = all.filter(function (s) {
+      return (state.area === '전체' || s.area.split(' · ')[0] === state.area) && (!state.todo || !bestOf(s.id));
+    });
+    if (!shown.length) grid.appendChild(h('p', { class: 'ex-note' }, '조건에 맞는 세트가 없어요. 거르개를 바꿔 보세요.'));
+    shown.forEach(function (s) {
       var b = bestOf(s.id);
       grid.appendChild(h('article', { class: 'ex-setcard' },
         h('span', { class: 'ex-area' }, s.area),
@@ -57,7 +74,7 @@
       ));
     });
     app.appendChild(grid);
-    app.appendChild(h('p', { class: 'ex-note' }, '지문과 문항은 모두 국어랙돌에서 새로 쓴 연습용이에요. 기출 문제는 한국교육과정평가원과 법학전문대학원협의회 누리집에서 확인하세요.'));
+    app.appendChild(h('p', { class: 'ex-note' }, '지문과 문항은 모두 국어하니에서 새로 쓴 연습용이에요. 기출 문제는 한국교육과정평가원과 법학전문대학원협의회 누리집에서 확인하세요.'));
   }
 
   function viewInfo() {

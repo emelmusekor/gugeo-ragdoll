@@ -18,10 +18,10 @@
      props: marks(선택) [{m:'.', name, when, ex, mood}] */
   App.widgets.punct = function (el, props) {
     var marks = (props && props.marks) || [
-      { m: '.', name: '마침표', when: '설명하는 문장 끝에 써요.', ex: '나는 솜이야.', mood: 'smile' },
+      { m: '.', name: '마침표', when: '설명하는 문장 끝에 써요.', ex: '나는 하니야.', mood: 'smile' },
       { m: '?', name: '물음표', when: '묻는 문장 끝에 써요.', ex: '너는 누구니?', mood: 'think' },
       { m: '!', name: '느낌표', when: '느낌을 나타내는 문장 끝에 써요.', ex: '우아, 눈이 온다!', mood: 'wow' },
-      { m: ',', name: '쉼표', when: '부르는 말이나 대답하는 말 뒤에 써요.', ex: '솜이야, 같이 놀자.', mood: 'wink' },
+      { m: ',', name: '쉼표', when: '부르는 말이나 대답하는 말 뒤에 써요.', ex: '하니야, 같이 놀자.', mood: 'wink' },
     ];
     var cur = 0;
     var cat = catBox('smile');
@@ -87,7 +87,7 @@
       });
       if (speak && App.tts) App.tts.speak(it.line);
     }
-    el.appendChild(h('div', { class: 'wg wg-feel' }, h('div', { class: 'wgf-top' }, cat, h('div', { class: 'wgf-bubble' }, line, say)), row, h('p', { class: 'wg-note' }, '마음을 나타내는 말을 누르면 솜이 얼굴이 바뀌어요.')));
+    el.appendChild(h('div', { class: 'wg wg-feel' }, h('div', { class: 'wgf-top' }, cat, h('div', { class: 'wgf-bubble' }, line, say)), row, h('p', { class: 'wg-note' }, '마음을 나타내는 말을 누르면 하니 얼굴이 바뀌어요.')));
     render(false);
   };
 
@@ -154,7 +154,7 @@
   };
 
   /* ───────── 말차례 ─────────
-     props: lines [{who:0|1, text}], names ['솜이','보리'], pics ['🐱','🐶'] */
+     props: lines [{who:0|1, text}], names ['하니','보리'], pics ['🐱','🐶'] */
   App.widgets.turnTaking = function (el, props) {
     props = props || {};
     var lines = props.lines || [
@@ -163,7 +163,7 @@
       { who: 0, text: '나는 할머니 댁에 다녀왔어.' },
       { who: 1, text: '우아, 재미있었겠다!' },
     ];
-    var names = props.names || ['솜이', '보리'];
+    var names = props.names || ['하니', '보리'];
     var pics = props.pics || ['🐱', '🐶'];
     /* compare: false 이면 ‘한꺼번에 말하기’ 없이 대화만 들려준다 (말차례가 주제가 아닌 단원에서) */
     var compare = props.compare !== false;

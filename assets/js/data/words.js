@@ -1,7 +1,7 @@
 /* 낱말 자료
    one   : 글자 만들기에서 찾는 한 글자 낱말과 그림
    quiz  : 초성 퀴즈에 쓰는 낱말(그림 + 한 줄 뜻)
-   chain : 끝말잇기에서 솜이가 아는 낱말 */
+   chain : 끝말잇기에서 하니가 아는 낱말 */
 (function () {
   var App = (window.App = window.App || {});
 

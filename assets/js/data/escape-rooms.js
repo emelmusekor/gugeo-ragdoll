@@ -14,7 +14,7 @@
      fill   { q, text?, answer: ['정답', '허용 답'…], why }   ← text 안의 ( ? ) 칸을 채운다
      order  { q, items:[올바른 순서], why }                    ← 섞어서 보여 주고 차례로 누른다
      match  { q, pairs:[[왼쪽, 오른쪽], …], why }               ← 왼쪽마다 오른쪽을 고른다
-   모든 퍼즐: hint(솜이의 귀띔), works:[관련 작품 id] */
+   모든 퍼즐: hint(하니의 귀띔), works:[관련 작품 id] */
 (function () {
   var App = (window.App = window.App || {});
 

@@ -1,4 +1,4 @@
-/* 솜이네 마루: 달밤의 한옥 마루 그림 (직접 그린 SVG) */
+/* 하니네 마루: 달밤의 한옥 마루 그림 (직접 그린 SVG) */
 (function () {
   var App = (window.App = window.App || {});
 
@@ -64,7 +64,7 @@
       cat = App.cat.sit({ mood: opts.mood || 'happy' }).replace('<svg ', '<svg x="742" y="296" width="140" height="178" ');
     }
     return (
-      '<svg class="scene-maru" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="달밤의 한옥 마루에 랙돌 고양이 솜이가 앉아 있는 그림">' +
+      '<svg class="scene-maru" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="달밤의 한옥 마루에 랙돌 고양이 하니가 앉아 있는 그림">' +
       '<style>' +
       '.sc-star{animation:sc-tw 3.2s ease-in-out infinite}@keyframes sc-tw{0%,100%{opacity:.9}50%{opacity:.25}}' +
       '.sc-fly{animation:sc-fl 9s ease-in-out infinite}@keyframes sc-fl{0%,100%{transform:translate(0,0);opacity:.2}30%{transform:translate(26px,-18px);opacity:1}60%{transform:translate(-14px,-34px);opacity:.5}80%{transform:translate(10px,-10px);opacity:1}}' +

@@ -1,4 +1,4 @@
-/* 솜이네 마루: 끝말잇기 · 초성 퀴즈 · 삼행시 빨랫줄 */
+/* 하니네 마루: 끝말잇기 · 초성 퀴즈 · 삼행시 빨랫줄 */
 (function () {
   var App = window.App;
   var h = App.h;
@@ -7,7 +7,7 @@
   var bubbleEl;
   var panel;
 
-  /* 솜이가 말하기 */
+  /* 하니가 말하기 */
   function say(text, mood, jump) {
     bubbleEl.textContent = text;
     bubbleEl.style.animation = 'none';
@@ -63,7 +63,7 @@
         return starts(w, syl) && !isUsed(w);
       });
     }
-    /* 솜이는 되도록 다음 사람이 이을 수 있는 낱말을 고른다 */
+    /* 하니는 되도록 다음 사람이 이을 수 있는 낱말을 고른다 */
     function catPick(syl) {
       var list = candidates(syl);
       if (!list.length) return null;
@@ -241,7 +241,7 @@
   /* ───────── 삼행시 빨랫줄 ───────── */
   var POEM_WORDS = ['고양이', '무지개', '소나기', '다람쥐', '도토리', '바나나', '자전거', '코끼리', '솜사탕', '개나리', '병아리', '옥수수', '눈사람', '놀이터', '우리말', '한글날'];
   var POEM_EXAMPLES = {
-    고양이: ['고개를 들어 보니', '양지바른 마루 위에', '이불처럼 누운 솜이!'],
+    고양이: ['고개를 들어 보니', '양지바른 마루 위에', '이불처럼 누운 하니!'],
     무지개: ['무슨 색이 제일 좋아?', '지금 하늘 좀 봐!', '개나리색도 걸려 있어.'],
     소나기: ['소리도 없이 오더니', '나뭇잎을 톡톡 두드리고', '기지개 켜니 벌써 그쳤네.'],
   };

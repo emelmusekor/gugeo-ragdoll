@@ -14,7 +14,7 @@
 
    blocks 에 쓸 수 있는 것
    { t:'p', text }                         본문. **굵게** ==형광펜== [[소리]] {{누르면 읽어 주는 낱말}}
-   { t:'say', text, mood }                 솜이의 말풍선 (mood: smile|happy|wow|think|sad|shy|wink …)
+   { t:'say', text, mood }                 하니의 말풍선 (mood: smile|happy|wow|think|sad|shy|wink …)
    { t:'widget', kind, props, title, note } 움직이는 그림 (kind 는 assets/js/widgets 에 있는 이름)
    { t:'box', title, lines:[…] }           보기 글 상자
    { t:'table', title, head:[…], rows:[[…],…], note }   정리 표 (칸 안에서도 **굵게** 를 쓸 수 있어요)

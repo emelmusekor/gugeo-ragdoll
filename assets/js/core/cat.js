@@ -1,5 +1,6 @@
-/* 주인공 랙돌 '솜이'를 SVG로 그립니다. (직접 그린 원본 캐릭터)
-   랙돌의 특징: 크림색 긴 털, 귀·얼굴·꼬리의 짙은 포인트, 얼굴 가운데 흰 ∧ 무늬, 파란 눈.
+/* 주인공 랙돌 '하니'를 SVG로 그립니다. (실제 고양이 하니를 보고 그린 원본 캐릭터)
+   하니의 특징: 하얀 긴 털과 풍성한 가슴털, 회갈색(라일락·블루 바이컬러) 귀·눈가 가면·꼬리,
+   이마에서 코로 내려오는 흰 ∧ 무늬, 하얀 주둥이, 맑은 하늘색 눈, 분홍 코.
 
    App.cat.head({mood})   얼굴만            viewBox 240×214
    App.cat.sit({mood})    앉은 모습         viewBox 240×306
@@ -12,21 +13,22 @@
   var uid = 0;
 
   var C = {
-    line: '#4A3329', // 윤곽선
-    cream: '#FFF9EC', // 몸 털
+    line: '#5E4E47', // 윤곽선 (부드러운 회갈색)
+    cream: '#FFFDF9', // 몸 털 (거의 흰색)
     white: '#FFFFFF',
-    seal: '#7A5646', // 포인트(귀·얼굴·꼬리)
-    sealLight: '#B8937D',
-    ear: '#EDB9AB',
-    nose: '#F29BA5',
-    blush: '#F7B7BC',
-    eye1: '#9AD0FF',
-    eye2: '#3F86E0',
-    eye3: '#1F56B4',
+    seal: '#A3958C', // 포인트(귀·눈가·꼬리) — 하니의 회갈색
+    sealLight: '#D3C8C0',
+    sealDark: '#867870',
+    ear: '#F2C3C3',
+    nose: '#F2A3AE',
+    blush: '#F7C1C6',
+    eye1: '#CFE8FF',
+    eye2: '#7FB3EC',
+    eye3: '#3F72BE',
     pupil: '#1B2038',
     mouth: '#C9566B',
     tongue: '#F58E9C',
-    whisker: '#8F7C6F',
+    whisker: '#B3A79F',
     yarn: '#E8604C',
     yarnDark: '#B8402F',
     yarnLight: '#F58B76',
@@ -37,7 +39,7 @@
     'C172 186 148 194 120 194 C92 194 68 186 50 168 l-18 2 l4 -14 l-16 -4 l10 -12 l-12 -8 l14 -6 ' +
     'C30 112 36 96 46 82 C62 58 90 46 120 48 Z';
 
-  var MASK_L = 'M34 100 C46 66 82 48 113 49 L105 94 C102 118 92 134 74 139 C54 142 37 130 35 112 Z';
+  var MASK_L = 'M36 98 C48 66 84 48 112 50 C108 64 104 80 99 98 C96 116 90 128 74 131 C56 133 40 124 37 110 Z';
 
   function eye(cx, cy, mood, side, id) {
     var open =
@@ -106,7 +108,8 @@
     var blush = mood === 'shy' ? 0.95 : 0.55;
     var ear =
       '<path d="M46 92 C43 62 50 34 60 19 C77 27 95 42 105 58 Z" fill="' + C.seal + '" stroke="' + C.line + '" stroke-width="' + sw + '" stroke-linejoin="round"/>' +
-      '<path d="M58 78 C57 60 60 45 65 36 C74 42 84 50 91 60 Z" fill="' + C.ear + '"/>';
+      '<path d="M58 78 C57 60 60 45 65 36 C74 42 84 50 91 60 Z" fill="' + C.ear + '"/>' +
+      '<path d="M62 74 q4 -8 2 -16 M70 72 q4 -6 4 -14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>';
     return (
       '<defs>' +
       '<radialGradient id="' + id + 'i" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="' + C.eye1 + '"/><stop offset=".55" stop-color="' + C.eye2 + '"/><stop offset="1" stop-color="' + C.eye3 + '"/></radialGradient>' +
@@ -120,6 +123,8 @@
       '<g clip-path="url(#' + id + 'c)"><g filter="url(#' + id + 'b)" fill="url(#' + id + 'm)">' +
       '<path d="' + MASK_L + '"/><g transform="translate(240 0) scale(-1 1)"><path d="' + MASK_L + '"/></g>' +
       '</g></g>' +
+      '<g clip-path="url(#' + id + 'c)"><ellipse cx="120" cy="160" rx="46" ry="30" fill="' + C.white + '" opacity=".9" filter="url(#' + id + 'b)"/></g>' +
+      '<path d="M104 70 q16 -6 32 0" fill="none" stroke="' + C.sealDark + '" stroke-width="2" stroke-linecap="round" opacity=".35"/>' +
       '<path d="' + HEAD + '" fill="none" stroke="' + C.line + '" stroke-width="' + sw + '" stroke-linejoin="round"/>' +
       '<ellipse cx="62" cy="150" rx="13" ry="8" fill="' + C.blush + '" opacity="' + blush + '"/>' +
       '<ellipse cx="178" cy="150" rx="13" ry="8" fill="' + C.blush + '" opacity="' + blush + '"/>' +
@@ -148,7 +153,7 @@
   function head(o) {
     o = o || {};
     var id = 'c' + ++uid;
-    return wrap('0 0 240 214', face(o.mood || 'smile', id, o), o, '랙돌 고양이 솜이');
+    return wrap('0 0 240 214', face(o.mood || 'smile', id, o), o, '랙돌 고양이 하니');
   }
 
   function sit(o) {
@@ -156,18 +161,22 @@
     var id = 'c' + ++uid;
     var L = 'stroke="' + C.line + '" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"';
     var body =
-      /* 꼬리 */
-      '<g class="cat-tail" style="transform-origin:168px 268px"><path d="M152 276 C204 292 240 254 226 212 C220 192 196 190 194 210 C192 232 184 246 152 250 Z" fill="' + C.seal + '" ' + L + '/>' +
-      '<path d="M204 216 q6 14 -2 30 M214 232 q0 12 -8 22" fill="none" stroke="' + C.sealLight + '" stroke-width="3" stroke-linecap="round" opacity=".7"/></g>' +
+      '<defs><clipPath id="' + id + 'bd"><path d="M72 176 C42 206 36 262 58 286 C74 300 166 300 182 286 C204 262 198 206 168 176 Z"/></clipPath></defs>' +
+      /* 꼬리: 회갈색 복슬 꼬리 */
+      '<g class="cat-tail" style="transform-origin:168px 268px"><path d="M150 278 C204 296 244 258 230 210 C226 196 214 188 204 194 C196 199 198 210 200 220 C204 240 186 252 152 250 Z" fill="' + C.seal + '" ' + L + '/>' +
+      '<path d="M206 206 q8 14 2 30 M218 222 q2 16 -8 26 M196 258 q12 -2 20 -10" fill="none" stroke="' + C.sealLight + '" stroke-width="3" stroke-linecap="round" opacity=".8"/></g>' +
       /* 몸 */
-      '<path d="M72 176 C42 206 36 262 58 286 C74 300 166 300 182 286 C204 262 198 206 168 176 Z" fill="' + C.cream + '" ' + L + '/>' +
-      /* 가슴 털 */
-      '<path d="M92 196 q8 14 14 4 q6 14 14 2 q8 12 14 -2 q6 10 14 -4" fill="none" stroke="' + C.line + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/>' +
+      '<path d="M72 176 C42 206 36 262 58 286 C74 300 166 300 182 286 C204 262 198 206 168 176 Z" fill="' + C.cream + '"/>' +
+      '<g clip-path="url(#' + id + 'bd)" fill="' + C.sealLight + '" opacity=".9"><path d="M30 190 C52 200 60 240 56 300 L20 300 Z"/><path d="M210 190 C188 200 180 240 184 300 L220 300 Z"/></g>' +
+      '<path d="M72 176 C42 206 36 262 58 286 C74 300 166 300 182 286 C204 262 198 206 168 176 Z" fill="none" ' + L + '/>' +
+      /* 가슴 털: 하얗고 풍성하게 */
+      '<path d="M78 184 C84 214 92 232 104 240 l6 -10 l6 12 l6 -12 l6 12 l6 -12 l6 10 C150 232 158 214 162 184 Z" fill="' + C.white + '"/>' +
+      '<path d="M98 214 q6 10 10 2 M112 222 q6 10 10 0 M126 222 q6 10 10 -2 M140 212 q4 8 8 0" fill="none" stroke="' + C.sealLight + '" stroke-width="2.6" stroke-linecap="round"/>' +
       /* 앞발 */
       '<ellipse cx="98" cy="286" rx="21" ry="13" fill="' + C.white + '" ' + L + '/>' +
       '<ellipse cx="142" cy="286" rx="21" ry="13" fill="' + C.white + '" ' + L + '/>' +
-      '<path d="M91 284 v8 M105 284 v8 M135 284 v8 M149 284 v8" fill="none" stroke="' + C.line + '" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>';
-    return wrap('0 0 240 306', body + face(o.mood || 'smile', id, o), o, '앉아 있는 랙돌 고양이 솜이');
+      '<path d="M91 284 v8 M105 284 v8 M135 284 v8 M149 284 v8" fill="none" stroke="' + C.line + '" stroke-width="2.5" stroke-linecap="round" opacity=".5"/>';
+    return wrap('0 0 240 306', body + face(o.mood || 'smile', id, o), o, '앉아 있는 랙돌 고양이 하니');
   }
 
   function peek(o) {
@@ -178,7 +187,7 @@
       '<ellipse cx="66" cy="198" rx="24" ry="14" fill="' + C.white + '" ' + L + '/>' +
       '<ellipse cx="174" cy="198" rx="24" ry="14" fill="' + C.white + '" ' + L + '/>' +
       '<path d="M58 196 v9 M74 196 v9 M166 196 v9 M182 196 v9" fill="none" stroke="' + C.line + '" stroke-width="2.5" stroke-linecap="round" opacity=".6"/>';
-    return wrap('0 0 240 214', face(o.mood || 'smile', id, o) + paws, o, '빼꼼 내다보는 랙돌 고양이 솜이');
+    return wrap('0 0 240 214', face(o.mood || 'smile', id, o) + paws, o, '빼꼼 내다보는 랙돌 고양이 하니');
   }
 
   function yarn(o) {
@@ -210,7 +219,7 @@
 
   App.cat = { head: head, sit: sit, peek: peek, yarn: yarn, paw: paw, colors: C };
 
-  /* data-cat="sit|head|peek" data-mood="…" 인 자리에 솜이를 그려 넣는다 */
+  /* data-cat="sit|head|peek" data-mood="…" 인 자리에 하니를 그려 넣는다 */
   App.mountCats = function (root) {
     (root || document).querySelectorAll('[data-cat]').forEach(function (el) {
       if (el.dataset.catDone) return;

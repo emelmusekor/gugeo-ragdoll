@@ -621,7 +621,7 @@ section {
 }
 .door-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
 }
 .door-card {
@@ -681,8 +681,61 @@ section {
   font-weight: 700;
   color: var(--c);
 }
-@media (max-width: 860px) {
+.door-card.tone-mint {
+  --c: var(--mint);
+  --c-soft: var(--mint-soft);
+}
+@media (max-width: 1080px) {
+  .door-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 620px) {
   .door-grid {
     grid-template-columns: 1fr;
+  }
+}
+.today {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 22px;
+  align-items: center;
+  margin-top: 18px;
+  padding: 22px 26px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #1f2a52, #3d5596);
+  color: #fff;
+  box-shadow: var(--shadow-2);
+  transition: transform 0.15s;
+}
+.today:hover {
+  transform: translateY(-2px);
+}
+.today-k {
+  grid-row: span 2;
+  font-weight: 700;
+  color: #ffd98a;
+  white-space: nowrap;
+}
+.today-lines {
+  font-size: clamp(17px, 2.2vw, 21px);
+  line-height: 1.7;
+}
+.today-lines span {
+  display: block;
+}
+.today-meta {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #d9d2c4;
+}
+@media (max-width: 620px) {
+  .today {
+    grid-template-columns: 1fr;
+  }
+  .today-k {
+    grid-row: auto;
+    margin-bottom: 6px;
   }
 }

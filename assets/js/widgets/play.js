@@ -470,7 +470,7 @@
   };
 
   /* ───────── 문장 만들기(누가 + 무엇을 + 어찌하다) ─────────
-     props: who [{w:'솜이', e:'🐱'}], what [{w:'우유', e:'🥛', ok:[0]}], does ['마셔요','먹어요','읽어요']
+     props: who [{w:'하니', e:'🐱'}], what [{w:'우유', e:'🥛', ok:[0]}], does ['마셔요','먹어요','읽어요']
             what[].ok = 어울리는 does 번호들 */
   App.widgets.sentenceMaker = function (el, props) {
     props = props || {};
