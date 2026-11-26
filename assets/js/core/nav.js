@@ -14,8 +14,9 @@
   ];
 
   function page() {
-    var p = location.pathname.split('/').pop() || 'index.html';
-    return p;
+    /* GitHub Pages 는 /escape.html, Cloudflare Pages 는 /escape 로 열린다 */
+    var p = (location.pathname.split('/').pop() || 'index').replace(/\.html$/, '');
+    return p + '.html';
   }
 
   function build() {
