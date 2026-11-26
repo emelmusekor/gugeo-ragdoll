@@ -1,0 +1,610 @@
+/* 문학 서고 */
+
+.lead {
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+/* ───── 첫 화면 ───── */
+.ar-hero {
+  padding: 56px 0 40px;
+  background:
+    radial-gradient(900px 380px at 85% 0%, var(--violet-soft), transparent 70%),
+    linear-gradient(var(--paper), var(--paper-2));
+  border-bottom: 1px solid var(--line);
+}
+.ar-hero-inner {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.ar-hero h1 {
+  font-size: clamp(28px, 4.2vw, 44px);
+  margin: 10px 0 14px;
+}
+.ar-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 0 16px;
+  min-height: 54px;
+  border-radius: 999px;
+  background: var(--card);
+  border: 2px solid var(--line-2);
+  box-shadow: var(--shadow-1);
+  color: var(--ink-3);
+}
+.ar-search:focus-within {
+  border-color: var(--violet);
+}
+.ar-search svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.ar-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+}
+.ar-stats {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+.ar-hero-shelf {
+  position: relative;
+  max-width: 380px;
+  justify-self: center;
+  width: 100%;
+}
+.ar-shelf-cat {
+  position: absolute;
+  right: -8px;
+  bottom: -18px;
+  width: 120px;
+}
+@media (max-width: 860px) {
+  .ar-hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .ar-hero-shelf {
+    display: none;
+  }
+}
+
+/* ───── 탭과 거르개 ───── */
+.ar-body {
+  padding-top: 28px;
+}
+.ar-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--line);
+  scrollbar-width: none;
+}
+.ar-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px 12px;
+  font-weight: 700;
+  color: var(--ink-3);
+  white-space: nowrap;
+  border-radius: 10px 10px 0 0;
+}
+.ar-tab:hover {
+  color: var(--ink);
+  background: var(--paper-2);
+}
+.ar-tab.is-on {
+  color: var(--violet);
+}
+.ar-tab.is-on::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -6px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--violet);
+}
+.ar-tab-n {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--coral);
+  color: #fff;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+}
+.ar-filters {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0 8px;
+}
+.ar-chiprow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+.ar-chiprow-l {
+  flex: none;
+  width: 36px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.ar-chiprow .chip:hover {
+  border-color: var(--ink-3);
+}
+
+/* ───── 연표 ───── */
+.ar-timeline {
+  position: relative;
+  margin-top: 14px;
+  padding-left: 22px;
+}
+.ar-timeline::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: linear-gradient(var(--violet), var(--coral), var(--amber));
+  opacity: 0.45;
+}
+.ar-era {
+  margin: 10px 0 30px;
+}
+.ar-era-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.ar-era-dot {
+  position: absolute;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 3px solid var(--violet);
+}
+.ar-era-head h2 {
+  font-size: 24px;
+}
+.ar-era-n {
+  font-size: 13px;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+
+/* ───── 카드 ───── */
+.ar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.ar-card {
+  --c: var(--violet);
+  --c-soft: var(--violet-soft);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 16px 16px 14px;
+  border-radius: var(--radius-s);
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-top: 5px solid var(--c);
+  box-shadow: var(--shadow-1);
+  text-align: left;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.ar-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-2);
+}
+.ar-card.is-prose {
+  --c: var(--blue);
+  --c-soft: var(--blue-soft);
+}
+.ar-card.is-drama {
+  --c: var(--amber);
+  --c-soft: var(--amber-soft);
+}
+.ar-card-g {
+  display: inline-block;
+  padding: 1px 9px;
+  border-radius: 999px;
+  background: var(--c-soft, var(--violet-soft));
+  color: var(--c, var(--violet));
+  font-size: 12px;
+  font-weight: 700;
+}
+.ar-card-t {
+  font-size: 21px;
+  line-height: 1.3;
+  margin-top: 4px;
+}
+.ar-card-a {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.ar-card-theme {
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  margin-top: 4px;
+}
+.ar-card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+.ar-badge {
+  padding: 0 8px;
+  border-radius: 6px;
+  background: var(--paper-2);
+  color: var(--ink-2);
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 22px;
+}
+.ar-badge.is-room {
+  background: var(--coral-soft);
+  color: var(--coral-deep);
+}
+.ar-badge.is-saved {
+  background: var(--mint-soft);
+  color: var(--mint-deep);
+}
+.ar-empty,
+.ar-note {
+  color: var(--ink-3);
+  font-size: 15px;
+  margin: 18px 0;
+}
+.ar-empty-box {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 26px 0;
+  padding: 22px;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1.5px dashed var(--line-2);
+}
+.ar-empty-cat {
+  width: 110px;
+  flex: none;
+}
+
+/* ───── 개념어 ───── */
+.ar-concepts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+.ar-concept {
+  padding: 18px;
+  border-radius: var(--radius-s);
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  scroll-margin-top: 90px;
+}
+.ar-concept.is-flash {
+  animation: ar-flash 1.6s ease 2;
+}
+@keyframes ar-flash {
+  50% {
+    border-color: var(--violet);
+    box-shadow: 0 0 0 4px var(--violet-soft);
+  }
+}
+.ar-concept h3 {
+  font-size: 19px;
+  margin-bottom: 6px;
+  color: #55409a;
+}
+.ar-concept p {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+.ar-concept-ws {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.ar-concept-ws > span {
+  width: 100%;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+.ar-link {
+  color: var(--blue-deep);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ───── 한 줄 퀴즈 ───── */
+.ar-quiz {
+  max-width: 720px;
+  margin: 24px auto 0;
+  text-align: center;
+}
+.ar-quiz-score {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.ar-quiz-q {
+  margin: 14px 0;
+  padding: 26px 20px;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  box-shadow: var(--shadow-1);
+  font-size: clamp(19px, 3vw, 24px);
+  line-height: 1.8;
+}
+.ar-quiz-q span {
+  display: block;
+}
+.ar-quiz-st {
+  font-weight: 700;
+  color: var(--ink-2);
+  min-height: 1.7em;
+}
+.ar-quiz-st.is-ok {
+  color: var(--mint-deep);
+}
+.ar-quiz-st.is-no {
+  color: var(--coral-deep);
+}
+.ar-quiz-choices {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 16px 0;
+}
+.ar-quiz-c {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px;
+  border-radius: var(--radius-s);
+  background: var(--card);
+  border: 2px solid var(--line-2);
+  font-size: 17px;
+}
+.ar-quiz-c small {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.ar-quiz-c:hover {
+  border-color: var(--violet);
+}
+.ar-quiz-c.is-ok {
+  border-color: var(--mint);
+  background: var(--mint-soft);
+}
+.ar-quiz-c.is-no {
+  border-color: var(--coral);
+  background: var(--coral-soft);
+}
+.ar-quiz-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ───── 작품 상세 대화상자 ───── */
+.ar-dialog {
+  width: min(720px, 100% - 24px);
+  max-height: min(88vh, 900px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 30px 80px rgba(44, 37, 33, 0.35);
+}
+.ar-dialog::backdrop {
+  background: rgba(44, 37, 33, 0.45);
+  backdrop-filter: blur(3px);
+}
+.ar-d-inner {
+  max-height: min(88vh, 900px);
+  overflow: auto;
+}
+.ar-d-head {
+  --c: var(--violet);
+  --c-soft: var(--violet-soft);
+  position: relative;
+  padding: 26px 26px 18px;
+  background: linear-gradient(var(--c-soft), var(--card));
+  border-bottom: 1px solid var(--line);
+}
+.ar-d-head.is-prose {
+  --c: var(--blue);
+  --c-soft: var(--blue-soft);
+}
+.ar-d-head.is-drama {
+  --c: var(--amber);
+  --c-soft: var(--amber-soft);
+}
+.ar-d-head .ar-card-g {
+  background: var(--card);
+}
+.ar-d-head h2 {
+  font-size: 32px;
+  margin-top: 8px;
+}
+.ar-d-meta {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+.ar-d-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1.5px solid var(--line-2);
+  font-size: 24px;
+  line-height: 1;
+}
+.ar-d-body {
+  padding: 20px 26px 8px;
+}
+.ar-d-theme {
+  font-size: 16px;
+}
+.ar-d-theme b {
+  color: var(--coral-deep);
+  margin-right: 4px;
+}
+.ar-d-sum {
+  margin-top: 8px;
+  color: var(--ink-2);
+}
+.ar-d-quote {
+  margin: 18px 0 6px;
+  border-radius: var(--radius-s);
+  border: 1.5px solid var(--grid);
+  background:
+    repeating-linear-gradient(transparent 0 35px, rgba(233, 183, 172, 0.45) 35px 36px),
+    #fffefa;
+  overflow: hidden;
+}
+.ar-d-quote-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px 6px 16px;
+  background: rgba(233, 183, 172, 0.18);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--coral-deep);
+}
+.ar-d-lines {
+  margin: 0;
+  padding: 10px 22px 16px;
+  font-size: 18px;
+  line-height: 36px;
+}
+.ar-d-lines span {
+  display: block;
+}
+.ar-d-lines .gap {
+  height: 18px;
+}
+.ar-d-h {
+  margin: 22px 0 8px;
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--ink);
+}
+.ar-d-pts {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+  color: var(--ink-2);
+}
+.ar-d-cons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ar-d-def {
+  margin-top: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--paper-2);
+  font-size: 14.5px;
+  color: var(--ink-2);
+}
+.ar-d-pairs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+.ar-pair {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--line-2);
+  background: var(--paper);
+  text-align: left;
+}
+.ar-pair:hover {
+  border-color: var(--violet);
+}
+.ar-pair small {
+  color: var(--ink-3);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+.ar-d-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ar-d-foot {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 26px;
+  margin-top: 18px;
+  background: rgba(255, 253, 248, 0.95);
+  border-top: 1px solid var(--line);
+}
+@media (max-width: 560px) {
+  .ar-d-head,
+  .ar-d-body,
+  .ar-d-foot {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .ar-quiz-choices {
+    grid-template-columns: 1fr;
+  }
+  .ar-empty-box {
+    flex-direction: column;
+    text-align: center;
+  }
+}

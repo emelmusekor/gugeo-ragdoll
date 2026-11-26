@@ -5,7 +5,7 @@
   var memory = null;
 
   function blank() {
-    return { name: '', units: {}, last: null, marks: [], maru: {} };
+    return { name: '', units: {}, last: null, marks: [], maru: {}, kv: {} };
   }
 
   function load() {
@@ -105,6 +105,15 @@
       var s = load();
       if (value === undefined) return s.maru[key];
       s.maru[key] = value;
+      save();
+    },
+
+    /* 문학 서고·방탈출·실전 문제에서 쓰는 기록 (서재, 최고 기록, 오답 노트 등) */
+    kv: function (key, value) {
+      var s = load();
+      if (!s.kv) s.kv = {};
+      if (value === undefined) return s.kv[key];
+      s.kv[key] = value;
       save();
     },
 

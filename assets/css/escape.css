@@ -1,0 +1,177 @@
+/* 문학 방탈출 */
+
+.lead {
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+/* ───── 로비 ───── */
+.es-hero {
+  padding: 56px 0 36px;
+  background:
+    radial-gradient(700px 300px at 80% 10%, rgba(255, 244, 207, 0.16), transparent 70%),
+    linear-gradient(#131a36, #2b3c72);
+  color: #f5eedf;
+}
+.es-hero .eyebrow {
+  color: #ffb3a6;
+}
+.es-hero .lead {
+  color: #d9d2c4;
+  margin-top: 14px;
+}
+.es-hero h1 {
+  font-size: clamp(28px, 4.2vw, 44px);
+  margin-top: 10px;
+}
+.es-hero-inner {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.es-hero-cat {
+  max-width: 220px;
+  justify-self: center;
+}
+.es-points {
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.es-points li {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 13.5px;
+}
+@media (max-width: 760px) {
+  .es-hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .es-hero-cat {
+    display: none;
+  }
+}
+.es-nothree {
+  margin-top: 20px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--coral-soft);
+  color: var(--coral-deep);
+  font-weight: 700;
+}
+.es-rooms {
+  display: grid;
+  gap: 18px;
+  margin-top: 32px;
+}
+.es-room {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  scroll-margin-top: 90px;
+}
+.es-room.is-focus {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 4px var(--coral-soft), var(--shadow-2);
+}
+.es-room-art svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.es-room-body {
+  padding: 22px 24px;
+}
+.es-room-sub {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--violet);
+}
+.es-room h2 {
+  font-size: 26px;
+  margin: 4px 0 8px;
+}
+.es-room-intro {
+  color: var(--ink-2);
+  font-size: 15px;
+}
+.es-room-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 16px;
+}
+.es-room-meta span {
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--paper-2);
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 26px;
+  color: var(--ink-2);
+}
+.es-room-meta .es-best {
+  background: var(--amber-soft);
+  color: #8a5a0c;
+}
+.es-room-meta .es-going {
+  background: var(--mint-soft);
+  color: var(--mint-deep);
+}
+.es-room-cta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+@media (max-width: 760px) {
+  .es-room {
+    grid-template-columns: 1fr;
+  }
+  .es-room-art {
+    max-height: 160px;
+    overflow: hidden;
+  }
+}
+.es-teacher {
+  margin-top: 28px;
+  padding: 20px 22px;
+  border-radius: var(--radius);
+  border: 1.5px dashed var(--line-2);
+  color: var(--ink-2);
+  font-size: 15px;
+}
+.es-teacher h2 {
+  font-size: 19px;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.es-teacher code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--paper-2);
+  font-size: 13px;
+}
+.es-teacher a {
+  color: var(--blue-deep);
+  text-decoration: underline;
+}
+
+/* 게임 화면은 escape-game.css (English_3D 디자인) */
+body.is-playing {
+  overflow: hidden;
+}
+body.is-playing .site-head,
+body.is-playing .es-foot {
+  display: none;
+}

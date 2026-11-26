@@ -610,3 +610,79 @@ section {
     font-size: 22px;
   }
 }
+
+/* ───── 새로 열린 세 개의 문 (문학 서고 · 방탈출 · 수능·LEET) ───── */
+.doors {
+  padding: 72px 0 24px;
+}
+.doors h2 {
+  font-size: clamp(26px, 3.6vw, 36px);
+  margin: 10px 0 24px;
+}
+.door-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.door-card {
+  --c: var(--violet);
+  --c-soft: var(--violet-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px 22px 20px;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-top: 6px solid var(--c);
+  box-shadow: var(--shadow-1);
+  color: var(--ink-2);
+  font-size: 15px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.door-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-2);
+}
+.door-card.tone-night {
+  --c: #2b3c72;
+  --c-soft: #e3e8f6;
+}
+.door-card.tone-blue {
+  --c: var(--blue);
+  --c-soft: var(--blue-soft);
+}
+.door-ico {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--c-soft);
+  color: var(--c);
+}
+.door-ico svg {
+  width: 34px;
+  height: 34px;
+}
+.door-k {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c);
+}
+.door-card b {
+  font-size: 21px;
+  color: var(--ink);
+  line-height: 1.35;
+}
+.door-go {
+  margin-top: auto;
+  padding-top: 6px;
+  font-weight: 700;
+  color: var(--c);
+}
+@media (max-width: 860px) {
+  .door-grid {
+    grid-template-columns: 1fr;
+  }
+}

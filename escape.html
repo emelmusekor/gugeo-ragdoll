@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>문학 방탈출 — 국어랙돌</title>
+    <meta name="description" content="3D 방을 걸어 다니며 작품 속 인물에게 말을 걸고 시와 소설의 단서를 풀어 글자 조각으로 탈출하는 문학 방탈출. 방 6개." />
+    <meta name="theme-color" content="#1f2a52" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/archive.css" />
+    <link rel="stylesheet" href="assets/css/escape.css" />
+    <link rel="stylesheet" href="assets/css/escape-game.css" />
+  </head>
+  <body class="escape-page">
+    <header class="site-head">
+      <div class="wrap">
+        <a class="logo" href="index.html" aria-label="국어랙돌 처음으로">
+          <span data-yarn></span><span data-brand="brand">국어랙돌</span>
+        </a>
+        <nav class="site-nav" aria-label="주요 메뉴">
+          <a href="handbook.html">국어 공책</a>
+          <a href="archive.html">문학 서고</a>
+          <a href="escape.html" aria-current="page">문학 방탈출</a>
+          <a href="exam.html">수능·LEET</a>
+          <a href="maru.html">마루</a>
+        </nav>
+        <a class="btn small" href="archive.html">문학 서고</a>
+      </div>
+    </header>
+
+    <main id="es-lobby">
+      <section class="es-hero">
+        <div class="wrap es-hero-inner">
+          <div>
+            <p class="eyebrow">문 학 &nbsp;방 탈 출</p>
+            <h1 class="display">시 한 구절이 열쇠가 되는 방,<br />문학으로 탈출하세요</h1>
+            <p class="lead">3D 방을 걸어 다니며 작품 속 인물에게 말을 걸고, 물건마다 숨은 시와 소설의 단서를 풀어요. 풀 때마다 글자 조각을 얻고, 조각을 모두 맞추면 잠긴 문이 열려요. 작품을 외우는 대신 <b>직접 만져 보며</b> 반어, 역설, 시점, 갈래를 익혀요.</p>
+            <ul class="es-points">
+              <li>WASD·조이스틱으로 걸어 다니는 1인칭 3D</li>
+              <li>태블릿·노트북 브라우저에서 설치 없이 바로</li>
+              <li>문제마다 풀이와 문학 서고 작품 카드 연결</li>
+              <li>힌트와 틀린 횟수로 별 1~3개, 최고 기록 저장</li>
+            </ul>
+          </div>
+          <div class="es-hero-cat" id="es-lobby-cat" aria-hidden="true"></div>
+        </div>
+      </section>
+      <section class="wrap">
+        <p class="es-nothree" id="es-nothree" hidden>3D 그림 도구를 불러오지 못했어요. 인터넷 연결을 확인한 뒤 새로 고침해 주세요.</p>
+        <div class="es-rooms" id="es-rooms"></div>
+        <aside class="es-teacher">
+          <h2 class="display">선생님께</h2>
+          <p>방과 문제는 <code>assets/js/data/escape-rooms.js</code> 한 파일에 모여 있어요. 고르기, 빈칸 채우기, 순서 맞추기, 짝 잇기 네 가지 퍼즐을 고치거나 새 방을 더할 수 있어요. 수업에서는 모둠별로 방 하나씩 탈출한 뒤, 만난 작품을 <a href="archive.html">문학 서고</a>에서 찾아 발표하게 해 보세요.</p>
+        </aside>
+      </section>
+    </main>
+
+    <section class="es-game g" id="es-game" hidden aria-label="방탈출 게임 화면">
+      <canvas id="es-canvas" aria-label="3D 방. 걸어 다니며 빨간 물음표 물건과 느낌표 인물을 찾아 단서를 풀어요."></canvas>
+      <div class="g-hud">
+        <div class="g-pill" id="g-stars" aria-label="모은 별">⭐ <span>0</span></div>
+        <div class="g-pill g-quest"><div id="g-stage"></div><div id="g-obj"></div></div>
+        <div class="g-btns">
+          <span class="g-pill g-time" id="g-time">⏱ 0:00</span>
+          <span class="g-pill g-hintp">💡 <span id="g-hintn">3</span></span>
+          <button type="button" id="g-mapbtn">🗺 지도</button>
+          <button type="button" id="g-mute">🔊 소리</button>
+          <button type="button" id="g-exit">나가기</button>
+        </div>
+      </div>
+      <div id="g-nav" aria-hidden="true"><div id="g-arrow"></div><div id="g-dist"></div></div>
+      <div id="g-prompt" role="button"></div>
+      <div id="g-held"><span class="g-held-l">글자 조각</span><div id="g-tilebar"></div></div>
+      <div id="g-toast" role="status"></div>
+      <div id="g-banner" aria-live="polite"></div>
+      <div id="g-map"><canvas id="g-mapc" width="300" height="300"></canvas></div>
+      <div id="g-joy"><div id="g-knob"></div></div>
+      <button type="button" id="g-act">살펴<br />보기</button>
+      <div id="g-dlg" role="dialog" aria-live="polite">
+        <span id="g-who"></span>
+        <div id="g-dbody"></div>
+        <div class="g-drow" id="g-drow"></div>
+      </div>
+      <div class="g-ov" id="g-title"><div class="g-panel g-titlepanel"></div></div>
+      <div class="g-ov" id="g-end"><div class="g-panel g-endpanel"></div></div>
+    </section>
+
+    <footer class="site-foot es-foot">
+      <div class="wrap">
+        <div class="logo"><span data-yarn></span><span data-brand="brand">국어랙돌</span></div>
+        <p>방탈출에 인용한 작품은 옛 문학과 저작권 보호 기간이 끝난 작품입니다. 진행 기록은 이 기기의 브라우저에만 저장됩니다.</p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="assets/js/core/config.js"></script>
+    <script src="assets/js/core/dom.js"></script>
+    <script src="assets/js/core/hangul.js"></script>
+    <script src="assets/js/core/cat.js"></script>
+    <script src="assets/js/core/cover.js"></script>
+    <script src="assets/js/core/tts.js"></script>
+    <script src="assets/js/core/store.js"></script>
+    <script src="assets/js/data/literature.js"></script>
+    <script src="assets/js/data/literature-2.js"></script>
+    <script src="assets/js/data/escape-rooms.js"></script>
+    <script src="assets/js/data/escape-rooms-2.js"></script>
+    <script src="assets/js/pages/escape.js"></script>
+  </body>
+</html>

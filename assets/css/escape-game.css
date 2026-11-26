@@ -1,0 +1,837 @@
+/* 문학 방탈출 게임 화면 — English_3D 디자인(남색·주황·청록·노랑, Jua 글꼴)을 그대로 따름 */
+.g {
+  --g-ink: #1d3557;
+  --g-accent: #e76f51;
+  --g-teal: #2a9d8f;
+  --g-yellow: #ffd166;
+  --g-muted: #5c677d;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #10142a;
+  font-family: 'Jua', 'Malgun Gothic', sans-serif;
+  color: var(--g-ink);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+.g button {
+  font-family: inherit;
+  cursor: pointer;
+}
+#es-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+/* 위쪽 칸 */
+.g-hud {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 10px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  pointer-events: none;
+  z-index: 5;
+}
+.g-pill {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 14px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  pointer-events: auto;
+  font-size: 16px;
+  white-space: nowrap;
+}
+.g-pill.pop {
+  animation: g-pop 0.5s;
+}
+@keyframes g-pop {
+  50% {
+    transform: scale(1.25);
+  }
+}
+.g-quest {
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+}
+#g-stage {
+  font-size: 13px;
+  color: var(--g-accent);
+}
+#g-obj {
+  font-size: 17px;
+  line-height: 1.35;
+}
+.g-btns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  pointer-events: auto;
+}
+.g-btns button {
+  border: 0;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  padding: 8px 10px;
+  font-size: 15px;
+  color: var(--g-ink);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+#g-exit {
+  background: var(--g-ink);
+  color: #fff;
+}
+
+/* 길 안내 화살표 */
+#g-nav {
+  position: absolute;
+  top: 92px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 4;
+}
+#g-arrow {
+  width: 0;
+  height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-bottom: 34px solid #ff3b6b;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+  display: none;
+  transition: transform 0.08s linear;
+}
+#g-dist {
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  padding: 0 6px;
+  margin-top: 4px;
+}
+#g-dist:empty {
+  display: none;
+}
+
+/* 살펴보기 알림 */
+#g-prompt {
+  position: absolute;
+  left: 50%;
+  bottom: 110px;
+  transform: translateX(-50%);
+  background: rgba(29, 53, 87, 0.9);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font-size: 19px;
+  display: none;
+  z-index: 6;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 92vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#g-prompt b {
+  background: #fff;
+  color: var(--g-ink);
+  border-radius: 6px;
+  padding: 0 7px;
+  margin-right: 4px;
+}
+
+/* 글자 조각 */
+#g-held {
+  position: absolute;
+  left: 12px;
+  bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 14px;
+  padding: 8px 12px;
+  border: 3px solid var(--g-yellow);
+  z-index: 5;
+}
+.g-held-l {
+  font-size: 14px;
+  color: var(--g-muted);
+}
+#g-tilebar,
+.g-slots {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.g-slot {
+  display: grid;
+  place-items: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: #eef2f6;
+  color: #aab;
+  font-size: 20px;
+}
+.g-slot.fill {
+  background: var(--g-yellow);
+  color: var(--g-ink);
+}
+.g-slot.pop {
+  animation: g-pop 0.6s;
+}
+.g-slot.big {
+  min-width: 58px;
+  height: 58px;
+  font-size: 30px;
+}
+
+/* 알림 */
+#g-toast {
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  transform: translate(-50%, -20px);
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px 18px;
+  font-size: 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: 0.25s;
+  pointer-events: none;
+  z-index: 20;
+  text-align: center;
+  max-width: 90vw;
+}
+#g-toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+#g-banner {
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: var(--g-ink);
+  color: #fff;
+  border-radius: 20px;
+  padding: 18px 34px;
+  text-align: center;
+  opacity: 0;
+  transition: 0.35s;
+  pointer-events: none;
+  z-index: 35;
+}
+#g-banner.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+#g-banner b {
+  display: block;
+  font-size: 30px;
+  color: var(--g-yellow);
+  font-weight: normal;
+}
+#g-banner span {
+  font-size: 17px;
+}
+
+/* 지도 */
+#g-map {
+  position: absolute;
+  right: 12px;
+  top: 76px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 6px;
+  display: none;
+  z-index: 6;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+#g-map.show {
+  display: block;
+}
+#g-mapc {
+  width: 200px;
+  height: 200px;
+  display: block;
+  border-radius: 10px;
+}
+
+/* 터치 */
+#g-joy {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  display: none;
+  z-index: 8;
+  pointer-events: none;
+}
+#g-knob {
+  position: absolute;
+  left: 32px;
+  top: 32px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+}
+#g-act {
+  position: absolute;
+  right: 22px;
+  bottom: 84px;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(29, 53, 87, 0.55);
+  color: #fff;
+  font-size: 17px;
+  line-height: 1.15;
+  display: none;
+  z-index: 8;
+}
+#g-act.ready {
+  background: var(--g-accent);
+  box-shadow: 0 0 0 6px rgba(231, 111, 81, 0.3);
+}
+body.g-touch #g-act {
+  display: block;
+}
+body.g-touch .desk {
+  display: none;
+}
+
+/* 대화창 */
+#g-dlg {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translate(-50%, 30px);
+  width: min(780px, 94vw);
+  max-height: 66vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 20px;
+  padding: 14px 20px 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s;
+  z-index: 30;
+  border: 4px solid var(--g-ink);
+  user-select: text;
+  -webkit-user-select: text;
+}
+#g-dlg.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+#g-dlg.shake {
+  animation: g-shake 0.35s;
+}
+@keyframes g-shake {
+  25% {
+    margin-left: -6px;
+  }
+  75% {
+    margin-left: 6px;
+  }
+}
+#g-who {
+  align-self: flex-start;
+  background: var(--g-accent);
+  color: #fff;
+  border-radius: 10px;
+  padding: 3px 12px;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+#g-dbody {
+  overflow: auto;
+  min-height: 0;
+  flex: 1;
+  padding-right: 4px;
+}
+.g-line {
+  font-size: 25px;
+  line-height: 1.4;
+  margin: 6px 0;
+}
+.g-q {
+  font-size: 21px;
+  line-height: 1.4;
+  margin: 4px 0 8px;
+}
+.g-text {
+  margin: 8px 0;
+  padding: 10px 16px;
+  border-left: 5px solid var(--g-yellow);
+  background: #fffbe6;
+  border-radius: 0 12px 12px 0;
+  font-family: 'Gowun Batang', serif;
+  font-size: 18px;
+  line-height: 1.85;
+}
+.g-text span {
+  display: block;
+}
+.g-input {
+  width: 6.5em;
+  margin: 0 4px;
+  padding: 2px 8px;
+  border: 3px solid var(--g-accent);
+  border-radius: 10px;
+  font-family: 'Jua', sans-serif;
+  font-size: 18px;
+  text-align: center;
+  color: var(--g-ink);
+}
+.g-input.right {
+  border-color: #2b8a3e;
+  background: #d3f9d8;
+}
+.g-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+.g-choice {
+  border: 3px solid #d0d7e2;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--g-ink);
+  flex: 1 1 calc(50% - 8px);
+  text-align: left;
+}
+.g-choice .num {
+  display: inline-block;
+  background: var(--g-ink);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 13px;
+  padding: 1px 6px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.g-choice:hover:not(:disabled) {
+  border-color: var(--g-teal);
+}
+.g-choice.right {
+  background: #d3f9d8;
+  border-color: #2b8a3e;
+}
+.g-choice.wrong {
+  background: #ffe3e3;
+  border-color: #e03131;
+  opacity: 0.6;
+}
+.g-orderAns {
+  display: flex;
+  gap: 6px;
+  min-height: 44px;
+  flex-wrap: wrap;
+  border-bottom: 2px dashed #ccc;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+.g-orderPool {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.g-chip {
+  border: 0;
+  background: var(--g-yellow);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: 17px;
+  color: var(--g-ink);
+  text-align: left;
+}
+.g-chip.on {
+  background: #e7f5ff;
+}
+.g-ph {
+  color: #aab;
+  font-size: 15px;
+  align-self: center;
+}
+.g-match {
+  display: grid;
+  gap: 8px;
+}
+.g-match-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 8px;
+  align-items: center;
+  font-size: 18px;
+}
+.g-arr {
+  color: var(--g-muted);
+}
+.g-sel {
+  font-family: 'Jua', sans-serif;
+  font-size: 16px;
+  padding: 7px;
+  border-radius: 10px;
+  border: 3px solid #cbd5e1;
+  color: var(--g-ink);
+  background: #fff;
+}
+.g-sel.right {
+  border-color: #2b8a3e;
+  background: #d3f9d8;
+}
+.g-sel.wrong {
+  border-color: #e03131;
+  background: #ffe3e3;
+}
+.g-fb {
+  min-height: 1.4em;
+  margin: 8px 0 4px;
+  font-size: 18px;
+  color: var(--g-muted);
+}
+.g-fb.is-ok {
+  color: #2b8a3e;
+}
+.g-fb.is-no {
+  color: #e03131;
+}
+.g-why {
+  margin: 8px 0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: #e7f5ff;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.g-why b {
+  font-family: 'Jua', sans-serif;
+  font-weight: normal;
+  color: var(--g-ink);
+}
+.g-why-links,
+.g-met {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.g-tag {
+  display: inline-block;
+  background: #fff;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 3px 10px;
+  font-family: 'Jua', sans-serif;
+  font-size: 15px;
+  color: var(--g-ink);
+}
+.g-tag:hover {
+  border-color: var(--g-teal);
+}
+.g-somi {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 8px 0;
+}
+.g-somi-cat {
+  width: 56px;
+  flex: none;
+}
+.g-somi p {
+  background: #fff8e6;
+  border: 2px solid var(--g-yellow);
+  border-radius: 14px;
+  padding: 8px 12px;
+  font-size: 17px;
+  line-height: 1.45;
+}
+.g-left {
+  margin: 4px 0;
+  padding-left: 22px;
+  font-size: 17px;
+  line-height: 1.6;
+}
+.g-tiles {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+.g-slots {
+  justify-content: center;
+  margin-top: 10px;
+}
+.g-tile {
+  width: 58px;
+  height: 58px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--g-yellow);
+  box-shadow: 0 4px 0 #e0a800;
+  font-size: 28px;
+  color: var(--g-ink);
+}
+.g-tile:disabled {
+  opacity: 0.25;
+  box-shadow: none;
+}
+.g-drow {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.g-drow button {
+  border: 0;
+  border-radius: 12px;
+  padding: 9px 16px;
+  font-size: 18px;
+}
+.g-drow .g-next {
+  background: var(--g-ink);
+  color: #fff;
+}
+.g-drow .g-ghost,
+.g-drow .say-btn {
+  background: #e7f5ff;
+  color: var(--g-ink);
+  height: auto;
+  font-family: 'Jua', sans-serif;
+}
+
+/* 시작 · 끝 화면 */
+.g-ov {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 30, 50, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  padding: 16px;
+}
+.g-ov.show {
+  display: flex;
+}
+.g-panel {
+  background: #fff;
+  border-radius: 22px;
+  padding: 24px 26px;
+  width: min(720px, 100%);
+  max-height: 94%;
+  overflow: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+.g-titlepanel,
+.g-endpanel {
+  text-align: center;
+  background: linear-gradient(180deg, #fff, #fff8e6);
+}
+.g-panel h1 {
+  margin: 0 0 6px;
+  font-size: 32px;
+  font-weight: normal;
+}
+.g-panel p {
+  line-height: 1.55;
+  font-size: 17px;
+  margin: 6px 0;
+}
+.g-sub {
+  color: var(--g-accent);
+  font-size: 18px;
+}
+.g-keys {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 8px;
+  margin: 14px 0;
+  text-align: left;
+}
+.g-keys div {
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 8px 10px;
+  font-size: 15px;
+}
+.g kbd {
+  background: #fff;
+  border: 2px solid #cbd5e1;
+  border-bottom-width: 4px;
+  border-radius: 6px;
+  padding: 0 6px;
+  font-family: inherit;
+}
+.g-cont {
+  color: var(--g-teal);
+}
+.g-big {
+  display: inline-block;
+  border: 0;
+  border-radius: 16px;
+  padding: 13px 24px;
+  font-size: 21px;
+  background: var(--g-accent);
+  color: #fff;
+  margin: 6px 4px 0;
+}
+.g-big.alt {
+  background: var(--g-teal);
+}
+.g-big.ghost {
+  background: #eef2f6;
+  color: var(--g-ink);
+}
+.g-links {
+  margin-top: 12px;
+  font-size: 15px;
+}
+.g-links a {
+  color: var(--g-teal);
+  margin: 0 8px;
+}
+.g-grade {
+  font-size: 46px;
+  color: #f2b705;
+  letter-spacing: 4px;
+}
+.g-grade span {
+  color: #d0d7e2;
+}
+.g-stat {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 10px 0;
+}
+.g-stat div {
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 10px;
+  font-size: 14px;
+}
+.g-stat b {
+  display: block;
+  font-size: 24px;
+  font-weight: normal;
+}
+.g-newbest {
+  color: var(--g-accent);
+}
+.g-h3 {
+  margin-top: 14px !important;
+  color: var(--g-muted);
+}
+.g-met {
+  justify-content: center;
+}
+.g-endbtns {
+  margin-top: 12px;
+}
+.g-endpanel .g-somi {
+  text-align: left;
+}
+
+@media (max-width: 900px) {
+  .g-hud {
+    flex-wrap: wrap;
+  }
+  .g-quest {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .g-btns {
+    flex: 1;
+  }
+  #g-nav {
+    top: 150px;
+  }
+  #g-toast {
+    top: 210px;
+  }
+}
+@media (max-width: 640px) {
+  #g-obj {
+    font-size: 15px;
+  }
+  .g-btns button {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  .g-pill {
+    padding: 6px 9px;
+    font-size: 14px;
+  }
+  .g-time {
+    display: none;
+  }
+  .g-line {
+    font-size: 21px;
+  }
+  .g-q {
+    font-size: 18px;
+  }
+  .g-choice {
+    font-size: 16px;
+    flex-basis: 100%;
+  }
+  .g-stat {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .g-panel {
+    padding: 18px;
+  }
+  .g-panel h1 {
+    font-size: 25px;
+  }
+  #g-held {
+    left: 8px;
+    bottom: 8px;
+    padding: 6px 8px;
+  }
+  .g-held-l {
+    display: none;
+  }
+  .g-slot {
+    min-width: 30px;
+    height: 30px;
+    font-size: 17px;
+  }
+  #g-prompt {
+    bottom: 190px;
+    font-size: 16px;
+  }
+  #g-act {
+    bottom: 70px;
+  }
+}

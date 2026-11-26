@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>문학 서고 — 국어랙돌</title>
+    <meta name="description" content="고대 가요부터 현대 소설까지, 교과서와 수능에 나오는 한국 문학 작품을 시대·갈래·개념어로 찾아보는 문학 서고. 감상 포인트, 함께 읽을 작품, 국어 공책 단원까지 한 번에." />
+    <meta name="theme-color" content="#fbf7ee" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/archive.css" />
+  </head>
+  <body class="archive-page">
+    <header class="site-head">
+      <div class="wrap">
+        <a class="logo" href="index.html" aria-label="국어랙돌 처음으로">
+          <span data-yarn></span><span data-brand="brand">국어랙돌</span>
+        </a>
+        <nav class="site-nav" aria-label="주요 메뉴">
+          <a href="handbook.html">국어 공책</a>
+          <a href="archive.html" aria-current="page">문학 서고</a>
+          <a href="escape.html">문학 방탈출</a>
+          <a href="exam.html">수능·LEET</a>
+          <a href="maru.html">마루</a>
+        </nav>
+        <a class="btn small" href="escape.html">방탈출 하러 가기</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="ar-hero">
+        <div class="wrap ar-hero-inner">
+          <div class="ar-hero-copy">
+            <p class="eyebrow">문 학 &nbsp;서 고</p>
+            <h1 class="display">고대 가요부터 광복 이후까지,<br />한국 문학을 한 서가에</h1>
+            <p class="lead">교과서와 수능에 나오는 작품을 시대, 갈래, 개념어로 찾아보세요. 작품마다 감상 포인트, 함께 읽을 짝 작품, 국어 공책 단원을 이어 두었어요.</p>
+            <label class="ar-search">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+              <input id="ar-q" type="search" placeholder="작품, 작가, 개념어로 찾기 (예: 역설, 윤동주, 이별)" autocomplete="off" aria-label="문학 서고 검색" />
+            </label>
+            <p class="ar-stats" id="ar-stats"></p>
+          </div>
+          <div class="ar-hero-shelf" aria-hidden="true" id="ar-shelf-art"></div>
+        </div>
+      </section>
+
+      <section class="wrap ar-body">
+        <div class="ar-tabs" role="tablist" aria-label="보기 방식" id="ar-tabs"></div>
+        <div class="ar-filters" id="ar-filters"></div>
+        <div id="ar-view" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <dialog class="ar-dialog" id="ar-dialog" aria-labelledby="ar-d-title">
+      <div class="ar-d-inner" id="ar-d-inner"></div>
+    </dialog>
+
+    <footer class="site-foot">
+      <div class="wrap">
+        <div class="logo"><span data-yarn></span><span data-brand="brand">국어랙돌</span></div>
+        <p>인용한 작품은 옛 문학과 저작권 보호 기간이 끝난 작품뿐이며, 짧은 대목만 실었습니다. 옛 표기는 읽기 쉽게 현대어로 옮겼습니다. 저작권이 남아 있는 작품은 줄거리와 감상 포인트만 소개합니다.</p>
+        <p>서재에 담은 작품은 서버로 보내지 않고 이 기기의 브라우저에만 저장됩니다.</p>
+      </div>
+    </footer>
+
+    <script src="assets/js/core/config.js"></script>
+    <script src="assets/js/core/dom.js"></script>
+    <script src="assets/js/core/hangul.js"></script>
+    <script src="assets/js/core/cat.js"></script>
+    <script src="assets/js/core/cover.js"></script>
+    <script src="assets/js/core/tts.js"></script>
+    <script src="assets/js/core/store.js"></script>
+    <script src="assets/js/data/units.js"></script>
+    <script src="assets/js/data/literature.js"></script>
+    <script src="assets/js/data/literature-2.js"></script>
+    <script src="assets/js/data/escape-rooms.js"></script>
+    <script src="assets/js/data/escape-rooms-2.js"></script>
+    <script src="assets/js/pages/archive.js"></script>
+  </body>
+</html>
